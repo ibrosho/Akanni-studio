@@ -57,6 +57,9 @@ export function AuthProvider({ children }) {
       const response = await api.post('/api/auth/login', { email, password });
       if (response.data.success) {
         setUser(response.data.user);
+        if (response.data.token) {
+          localStorage.setItem('arc_token', response.data.token);
+        }
         showToast(`Welcome back, ${response.data.user.name || 'User'}!`, 'success');
         return { success: true };
       }
@@ -159,6 +162,7 @@ export function AuthProvider({ children }) {
       const response = await api.put('/api/user/change-password', { currentPassword, newPassword });
       if (response.data.success) {
         showToast("Password updated successfully. Re-authentication required.", "success");
+        localStorage.removeItem('arc_token');
         setUser(null);
         navigate('/login');
         return { success: true };
@@ -178,6 +182,7 @@ export function AuthProvider({ children }) {
     } catch {
       // Graceful fallback
     } finally {
+      localStorage.removeItem('arc_token');
       setUser(null);
       showToast("Session terminated.", "info");
       navigate('/login');
