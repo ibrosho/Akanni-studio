@@ -284,7 +284,9 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
 // --- MAIN ROUTER LAYER ---
 function AppContent() {
   const backgroundVideos = [
-    "/drv.mp4", "/yug.mp4", "/yum.mp4"
+    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081786/drv_xs5lo2.mp4",
+    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081748/yug_hepusb.mp4",
+    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081700/yum_ttyge6.mp4",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
