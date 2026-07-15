@@ -60,7 +60,8 @@ export default function Navbar() {
       return photoPath;
     }
     const path = photoPath.startsWith('/') ? photoPath : `/${photoPath}`;
-    return `http://localhost:5000${path}`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    return `${baseUrl}${path}`;
   };
 
   // 💡 GATED GUARD RULE: If they are on the login page OR not authenticated, completely hide the layout
