@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Compass, Cpu, Terminal } from 'lucide-react';
 import PageTransition from './PageTransition';
+import MagneticButton from './MagneticButton';
 
 export default function Studio() {
   const navigate = useNavigate();
@@ -68,21 +69,24 @@ export default function Studio() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <a 
-                href="https://wa.me/2348104271840"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-6 h-11 border border-white/10 hover:border-cyan-400/30 bg-white/[0.02] text-gray-300 hover:text-white text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] group"
-              >
-                Contact Studio <ArrowUpRight size={12} className="text-gray-500 group-hover:text-cyan-400 transition-colors" />
-              </a>
+              <MagneticButton>
+                <a 
+                  href="https://wa.me/2348104271840"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-6 h-11 border border-white/10 hover:border-cyan-400/30 bg-white/[0.02] text-gray-300 hover:text-white text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] group"
+                >
+                  Contact Studio <ArrowUpRight size={12} className="text-gray-500 group-hover:text-cyan-400 transition-colors" />
+                </a>
+              </MagneticButton>
 
-              <button 
-                onClick={() => navigate('/login')}
-                className="inline-flex items-center gap-3 px-6 h-11 border border-cyan-500/20 hover:border-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 text-cyan-400 hover:text-white text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(6,182,212,0.15)]"
-              >
-                Client Access
-              </button>
+              <MagneticButton onClick={() => navigate('/login')}>
+                <button 
+                  className="inline-flex items-center gap-3 px-6 h-11 border border-cyan-500/20 hover:border-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 text-cyan-400 hover:text-white text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(6,182,212,0.15)] cursor-pointer"
+                >
+                  Client Access
+                </button>
+              </MagneticButton>
             </div>
             </div>
 
