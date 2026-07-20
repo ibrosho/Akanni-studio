@@ -28,7 +28,7 @@ const Insights = lazy(() => import('./components/Insights'));
 const Profile = lazy(() => import('./components/Profile'));
 const NotFound = lazy(() => import('./components/NotFound'));
 
-// STAGE LAYOUT MATRIX - HIGH-END ARCHITECTURAL STUDIO
+// STAGE LAYOUT MATRIX - 8 HIGH-END ARCHITECTURAL PROJECTS
 const STAGE_PROJECTS = [
   {
     title: "The Canopy",
@@ -53,6 +53,46 @@ const STAGE_PROJECTS = [
     description: "A 45-story commercial skyscraper wrapped in a dynamic, kinetic solar-tracking envelope engineered to optimize internal thermal dynamics.",
     focus: "Parametric Facades & Environmental Fluid Dynamics",
     location: "Eko Atlantic City, NG"
+  },
+  {
+    title: "Nexus",
+    accentTitle: "atelier.",
+    tag: "Computational Design",
+    description: "A next-generation research hub exploring parametric timber shell structures and multi-agent spatial generation algorithms.",
+    focus: "Digital Fabrication Robotics & Spatial Packing",
+    location: "Lagos Spatial Initiative, NG"
+  },
+  {
+    title: "Kora",
+    accentTitle: "villa.",
+    tag: "Residential Architecture",
+    description: "A secluded oceanfront residence integrated directly into volcanic cliff rock formations with 270-degree Atlantic views.",
+    focus: "Cliff Anchor Subterranean Engineering",
+    location: "Atlantic Coast, NG"
+  },
+  {
+    title: "Eko Tech",
+    accentTitle: "headquarters.",
+    tag: "Commercial High-Rise",
+    description: "A dynamic 30-story commercial tower wrapped in photovoltaic kinetic glass panels generating clean solar energy.",
+    focus: "Photovoltaic Kinetic Envelope Systems",
+    location: "Eko Tech District, NG"
+  },
+  {
+    title: "Atelier Horizon",
+    accentTitle: "museum.",
+    tag: "Cultural & Civic",
+    description: "A sweeping civic museum celebrating West African architectural heritage and computational art.",
+    focus: "Hyperbolic Paraboloid Shell Structures",
+    location: "Federal Capital Territory, NG"
+  },
+  {
+    title: "Solaria",
+    accentTitle: "pavilion.",
+    tag: "Biophilic Urbanism",
+    description: "A self-sustaining public educational center powered completely by solar timber pergolas and rain harvesting.",
+    focus: "Solar Thermal Desiccant Dehumidification",
+    location: "West Africa Solar Trust, NG"
   }
 ];
 
@@ -294,9 +334,14 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
 // --- MAIN ROUTER LAYER ---
 function AppContent() {
   const backgroundVideos = [
-    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081786/drv_xs5lo2.mp4",
-    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081748/yug_hepusb.mp4",
-    "https://res.cloudinary.com/nassz3ed/video/upload/v1784081700/yum_ttyge6.mp4",
+    "/pavilion_loop.mp4",
+    "/aka.mp4",
+    "/skyline_loop.mp4",
+    "/studio_loop.mp4",
+    "/drv.mp4",
+    "/yug.mp4",
+    "/yum.mp4",
+    "/aka2.mp4"
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
