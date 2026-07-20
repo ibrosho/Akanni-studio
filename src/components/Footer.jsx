@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronUp } from 'lucide-react';
+import MagneticButton from './MagneticButton';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -22,7 +24,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="mt-32 border-t border-luxury-border bg-luxury-black pt-16 pb-12 relative z-20 text-left">
+    <motion.footer 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="mt-32 border-t border-luxury-border bg-luxury-black pt-16 pb-12 relative z-20 text-left"
+    >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mb-16">
         
         {/* COLUMN 1: BRAND IDENTITY & VISION */}
@@ -103,14 +111,13 @@ export default function Footer() {
           <span className="text-[8px] opacity-60">
             Scale: Zero Carbon System Framework
           </span>
-          <button 
-            onClick={handleBackToTop}
-            className="flex items-center gap-1.5 text-neutral-muted hover:text-accent transition-colors duration-300 bg-transparent border-none p-0 cursor-pointer uppercase text-[9px] tracking-widest font-mono font-bold"
-          >
-            Back to Top <ChevronUp size={10} />
-          </button>
+          <MagneticButton onClick={handleBackToTop}>
+            <button className="flex items-center gap-1.5 text-neutral-muted hover:text-accent transition-colors duration-300 bg-transparent border-none p-0 cursor-pointer uppercase text-[9px] tracking-widest font-mono font-bold">
+              Back to Top <ChevronUp size={10} />
+            </button>
+          </MagneticButton>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
-}
+}

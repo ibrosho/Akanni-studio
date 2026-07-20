@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -6,17 +6,27 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 // Core context provider tracking sessions
 import { AuthProvider, useAuth } from './components/AuthContext';
 
-// Core structural views directly from your folder tree
+// Core structural views
 import Navbar from './components/Navbar';
-import Studio from './components/Studio';
-import Projects from './components/Projects';
-import About from './components/About';
-import Insights from './components/Insights';
 import Auth from './components/Auth';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import ResetPassword from './components/ResetPassword';
-import Profile from './components/Profile';
+
+// Foundation Enhancements
+import LenisProvider from './components/LenisProvider';
+import Preloader from './components/Preloader';
+import ScrollProgress from './components/ScrollProgress';
+import BlueprintGrid from './components/BlueprintGrid';
+import ErrorBoundary from './components/ErrorBoundary';
+
+// Lazy Loaded Page Components
+const Studio = lazy(() => import('./components/Studio'));
+const Projects = lazy(() => import('./components/Projects'));
+const About = lazy(() => import('./components/About'));
+const Insights = lazy(() => import('./components/Insights'));
+const Profile = lazy(() => import('./components/Profile'));
+const NotFound = lazy(() => import('./components/NotFound'));
 
 // STAGE LAYOUT MATRIX - HIGH-END ARCHITECTURAL STUDIO
 const STAGE_PROJECTS = [
@@ -308,103 +318,127 @@ function AppContent() {
   const showStructuralLayout = user && location.pathname !== "/login" && !location.pathname.startsWith("/reset-password");
 
   return (
-    <div className="min-h-screen bg-luxury-black text-neutral-warm relative font-sans antialiased flex flex-col justify-between overflow-x-hidden">
-      
-      {/* Global Interactive Custom Cursor */}
-      {showStructuralLayout && <CustomCursor />}
+    <LenisProvider>
+      {/* Accessible Skip Navigation Link */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-[999999] px-4 py-2 bg-accent text-black font-mono text-xs uppercase font-bold rounded-xl shadow-2xl"
+      >
+        Skip to main content
+      </a>
 
-      {/* Ambient Noise Overlay Layer */}
-      <svg className="fixed pointer-events-none z-40 opacity-[0.02] inset-0 w-full h-full" style={{ fill: 'none' }}>
-        <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" /></filter>
-        <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-      </svg>
+      <Preloader />
+      <ScrollProgress />
+      <BlueprintGrid />
 
-      {/* Floating Curved Navbar Integration Layer */}
-      {showStructuralLayout && (
-        <Navbar isAuthenticated={!!user} setIsAuthenticated={setIsAuthenticated} />
-      )}
+      <div className="min-h-screen bg-luxury-black text-neutral-warm relative font-sans antialiased flex flex-col justify-between overflow-x-hidden">
+        
+        {/* Global Interactive Custom Cursor */}
+        {showStructuralLayout && <CustomCursor />}
 
-      {/* CORE PORTFOLIO STREAMS */}
-      <div className="flex-grow w-full h-full">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            
-            {/* PUBLIC DEPLOYMENT PORTAL INTERFACE */}
-            <Route 
-              path="/login" 
-              element={user ? <Navigate to="/" replace /> : <div className="pt-32 px-8"><Auth /></div>} 
-            />
+        {/* Ambient Noise Overlay Layer */}
+        <svg className="fixed pointer-events-none z-40 opacity-[0.02] inset-0 w-full h-full" style={{ fill: 'none' }}>
+          <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" /></filter>
+          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+        </svg>
 
-            {/* UNPROTECTED PASSWORD RESET CONTAINER */}
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {/* Floating Curved Navbar Integration Layer */}
+        {showStructuralLayout && (
+          <Navbar isAuthenticated={!!user} setIsAuthenticated={setIsAuthenticated} />
+        )}
 
-            {/* ENFORCED PROTECTION NODE ROUTE PIPELINE */}
-            <Route 
-              path="/" 
-              element={
-                <ProtectedRoute>
-                  <HeroHome 
-                    currentIndex={currentIndex} 
-                    setCurrentIndex={setCurrentIndex} 
-                    handlePrev={handlePrev} 
-                    handleNext={handleNext} 
-                    backgroundVideos={backgroundVideos} 
-                  />
-                </ProtectedRoute>
-              } 
-            />
-            <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
-            <Route path="/studio" element={<ProtectedRoute><Studio /></ProtectedRoute>} />
-            <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
-            <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            
-            {/* Fallback Catch-All */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+        {/* CORE PORTFOLIO STREAMS */}
+        <main id="main-content" className="flex-grow w-full h-full">
+          <Suspense fallback={
+            <div className="min-h-[60vh] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border-t-2 border-accent animate-spin" />
+            </div>
+          }>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                
+                {/* PUBLIC DEPLOYMENT PORTAL INTERFACE */}
+                <Route 
+                  path="/login" 
+                  element={user ? <Navigate to="/" replace /> : <div className="pt-32 px-8"><Auth /></div>} 
+                />
+
+                {/* UNPROTECTED PASSWORD RESET CONTAINER */}
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+                {/* ENFORCED PROTECTION NODE ROUTE PIPELINE */}
+                <Route 
+                  path="/" 
+                  element={
+                    <ProtectedRoute>
+                      <HeroHome 
+                        currentIndex={currentIndex} 
+                        setCurrentIndex={setCurrentIndex} 
+                        handlePrev={handlePrev} 
+                        handleNext={handleNext} 
+                        backgroundVideos={backgroundVideos} 
+                      />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
+                <Route path="/studio" element={<ProtectedRoute><Studio /></ProtectedRoute>} />
+                <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+                <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                
+                {/* Fallback Architectural 404 Route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AnimatePresence>
+          </Suspense>
+        </main>
+
+        {/* Footer rendering control */}
+        {showStructuralLayout && <Footer />}
+
+        {/* Luxury Glassmorphic Toast Notification Overlay */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              className="fixed bottom-8 right-8 z-[99999] flex items-center gap-3 px-5 py-4 bg-luxury-charcoal/90 backdrop-blur-xl border border-luxury-border rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] max-w-sm"
+            >
+              <span className={`w-2 h-2 rounded-full shadow-lg flex-shrink-0 ${
+                toast.type === 'error' 
+                  ? 'bg-red-500 shadow-red-500/50 animate-pulse' 
+                  : toast.type === 'info' 
+                  ? 'bg-blue-400 shadow-blue-400/50' 
+                  : 'bg-accent shadow-[0_0_8px_#00f5d4]'
+              }`} />
+              <p className="text-[10px] uppercase tracking-widest font-mono text-neutral-warm select-none">
+                {toast.message}
+              </p>
+              <button 
+                onClick={closeToast}
+                className="ml-4 text-zinc-500 hover:text-white text-[9px] font-mono transition-colors cursor-pointer"
+              >
+                ✖
+              </button>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
-
-      {/* Footer rendering control */}
-      {showStructuralLayout && <Footer />}
-
-      {/* Luxury Glassmorphic Toast Notification Overlay */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className="fixed bottom-8 right-8 z-[99999] flex items-center gap-3 px-5 py-4 bg-luxury-charcoal/90 backdrop-blur-xl border border-luxury-border rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] max-w-sm"
-          >
-            <span className={`w-2 h-2 rounded-full shadow-lg flex-shrink-0 ${
-              toast.type === 'error' 
-                ? 'bg-red-500 shadow-red-500/50 animate-pulse' 
-                : toast.type === 'info' 
-                ? 'bg-blue-400 shadow-blue-400/50' 
-                : 'bg-accent shadow-[0_0_8px_#00f5d4]'
-            }`} />
-            <p className="text-[10px] uppercase tracking-widest font-mono text-neutral-warm select-none">
-              {toast.message}
-            </p>
-            <button 
-              onClick={closeToast}
-              className="ml-4 text-zinc-500 hover:text-white text-[9px] font-mono transition-colors cursor-pointer"
-            >
-              ✖
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    </LenisProvider>
   );
 }
+
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
+

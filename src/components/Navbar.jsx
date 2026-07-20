@@ -73,7 +73,6 @@ export default function Navbar() {
     logoutUser();
     setIsOpen(false);
     setShowDropdown(false);
-    logoutUser();
     navigate('/login'); 
   };
 
@@ -95,7 +94,7 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-6 left-4 right-4 z-40 flex justify-center"
     >
-      <nav className="w-full max-w-5xl bg-luxury-charcoal/70 backdrop-blur-xl border border-luxury-border rounded-full px-6 py-3.5 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative">
+      <nav aria-label="Main Navigation" className="w-full max-w-5xl bg-luxury-charcoal/70 backdrop-blur-xl border border-luxury-border rounded-full px-6 py-3.5 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative">
         
         {/* Brand Anchor Area */}
         <Link 

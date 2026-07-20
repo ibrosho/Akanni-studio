@@ -270,13 +270,38 @@ export default function Projects() {
                 </div>
 
                 {/* 6. FINAL OUTCOME STORY */}
-                <div className="text-center max-w-3xl mx-auto space-y-6 pt-8 pb-12">
+                <div className="text-center max-w-3xl mx-auto space-y-6 pt-4 pb-8">
                   <div className="flex items-center justify-center gap-2 text-accent">
                     <Compass size={14} />
                     <span className="text-[10px] font-mono uppercase tracking-widest font-bold">The Outcome</span>
                   </div>
                   <h3 className="text-3xl sm:text-4xl font-black uppercase text-white tracking-tight leading-none">Redefining Contemporary Architecture</h3>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">{activeProject.outcome}</p>
+                </div>
+
+                {/* 7. PREVIOUS / NEXT PROJECT NAVIGATION BAR */}
+                <div className="border-t border-white/10 pt-12 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest">
+                  <button
+                    onClick={() => {
+                      const currentIdx = PROJECT_DATABASE.findIndex(p => p.id === activeProject.id);
+                      const prevIdx = currentIdx === 0 ? PROJECT_DATABASE.length - 1 : currentIdx - 1;
+                      setActiveProject(PROJECT_DATABASE[prevIdx]);
+                    }}
+                    className="px-6 py-3 rounded-full border border-white/10 hover:border-accent bg-white/[0.02] text-zinc-400 hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    ← Previous Case Study
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const currentIdx = PROJECT_DATABASE.findIndex(p => p.id === activeProject.id);
+                      const nextIdx = (currentIdx + 1) % PROJECT_DATABASE.length;
+                      setActiveProject(PROJECT_DATABASE[nextIdx]);
+                    }}
+                    className="px-6 py-3 rounded-full border border-white/10 hover:border-accent bg-accent/10 text-accent hover:text-white transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    Next Case Study →
+                  </button>
                 </div>
 
               </div>

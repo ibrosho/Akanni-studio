@@ -127,6 +127,27 @@ export default function Profile() {
     showToast(`Cinematic custom cursor ${nextVal ? 'activated' : 'deactivated'}.`, "info");
   };
 
+  // Profile Completion Percentage Calculation
+  const completionPercentage = useMemo(() => {
+    let score = 0;
+    if (name?.trim()) score += 25;
+    if (user?.email) score += 25;
+    if (bio?.trim()?.length > 10) score += 25;
+    if (profilePhoto) score += 25;
+    return score;
+  }, [name, user?.email, bio, profilePhoto]);
+
+  // Social Links & Location State
+  const [locationName, setLocationName] = useState(() => localStorage.getItem('arc_location') || "Lagos, Nigeria");
+  const [websiteUrl, setWebsiteUrl] = useState(() => localStorage.getItem('arc_website') || "https://akanni-studio.vercel.app");
+  const [instagramUrl, setInstagramUrl] = useState(() => localStorage.getItem('arc_instagram') || "https://instagram.com/akanni_printing");
+
+  const saveSocials = () => {
+    localStorage.setItem('arc_location', locationName);
+    localStorage.setItem('arc_website', websiteUrl);
+    localStorage.setItem('arc_instagram', instagramUrl);
+  };
+
   // Submit Profile Form via Multipart FormData
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
@@ -135,6 +156,7 @@ export default function Profile() {
       return;
     }
     setIsUpdatingProfile(true);
+    saveSocials();
 
     const formData = new FormData();
     formData.append('name', name);
@@ -183,12 +205,79 @@ export default function Profile() {
       <div className="w-full min-h-screen pb-32 text-left">
         
         {/* Header Section */}
-        <div className="mb-16">
+        <div className="mb-12">
           <p className="text-[10px] font-mono tracking-[0.35em] text-accent uppercase mb-3">Management Center</p>
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white leading-none">
             STUDIO <span className="font-light italic text-zinc-500 lowercase">dashboard</span>
           </h2>
           <div className="h-[1px] bg-white/10 mt-8 w-full" />
+        </div>
+
+        {/* --- DASHBOARD OVERVIEW ANALYTICS --- */}
+        <div className="mb-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+          
+          {/* Profile Completion Ring Card */}
+          <div className="p-6 rounded-2xl bg-white/[0.015] border border-white/5 flex items-center gap-5">
+            <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
+              <svg className="w-16 h-16 transform -rotate-90">
+                <circle cx="32" cy="32" r="26" stroke="currentColor" strokeWidth="4" className="text-white/10" fill="transparent" />
+                <circle
+                  cx="32"
+                  cy="32"
+                  r="26"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeDasharray={163}
+                  strokeDashoffset={163 - (163 * completionPercentage) / 100}
+                  className="text-accent transition-all duration-1000 ease-out"
+                  fill="transparent"
+                />
+              </svg>
+              <span className="absolute font-mono text-xs font-bold text-white tabular-nums">{completionPercentage}%</span>
+            </div>
+            <div>
+              <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 font-bold mb-1">Profile Matrix</p>
+              <p className="text-xs font-semibold text-white">
+                {completionPercentage === 100 ? "Complete" : "Action Needed"}
+              </p>
+              <p className="text-[9px] font-mono text-accent mt-0.5">
+                {completionPercentage === 100 ? "100% Calibrated" : "Fill bio & photo"}
+              </p>
+            </div>
+          </div>
+
+          {/* Stat 2: Projects Viewed */}
+          <div className="p-6 rounded-2xl bg-white/[0.015] border border-white/5 flex flex-col justify-between">
+            <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Spatial Models Viewed</p>
+            <div className="flex items-baseline justify-between mt-2">
+              <span className="text-2xl font-black font-mono text-white tracking-tight">14</span>
+              <span className="text-[9px] font-mono text-accent">Active Session</span>
+            </div>
+          </div>
+
+          {/* Stat 3: Storage Usage */}
+          <div className="p-6 rounded-2xl bg-white/[0.015] border border-white/5 flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Storage Allocation</p>
+              <span className="text-[9px] font-mono text-zinc-400">1.2 / 2.0 MB</span>
+            </div>
+            <div className="mt-3">
+              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-accent w-[60%] shadow-[0_0_8px_#00f5d4]" />
+              </div>
+              <p className="text-[8px] font-mono text-zinc-500 mt-1 uppercase tracking-wider">Asset Quota: 60% Used</p>
+            </div>
+          </div>
+
+          {/* Stat 4: Security Status */}
+          <div className="p-6 rounded-2xl bg-white/[0.015] border border-white/5 flex flex-col justify-between">
+            <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Security Pipeline</p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#00f5d4]" />
+              <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">JWT Session Active</span>
+            </div>
+          </div>
+
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -211,6 +300,10 @@ export default function Profile() {
 
             <button
               onClick={() => {
+                const isFormDirty = name !== (user?.name || '') || bio !== (user?.bio || '') || selectedFile !== null;
+                if (isFormDirty && activeTab === 'profile') {
+                  showToast("Note: Unsaved profile changes will be preserved until saved.", "info");
+                }
                 navigate('/profile?tab=security');
               }}
               className={`flex-1 lg:flex-initial text-left px-5 py-4 rounded-2xl border transition-all duration-300 flex items-center gap-3 cursor-pointer ${
@@ -331,9 +424,45 @@ export default function Profile() {
                           value={bio} 
                           onChange={(e) => setBio(e.target.value)}
                           placeholder="Craft your spatial narrative or architectural credentials..."
-                          rows="4"
+                          rows="3"
                           className="w-full p-4 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent text-sm resize-none"
                         />
+                      </div>
+
+                      {/* Location & Portfolio Links Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <div className="space-y-1.5">
+                          <label className="block text-[9px] uppercase tracking-[0.2em] text-accent font-semibold">Studio Location</label>
+                          <input 
+                            type="text" 
+                            value={locationName} 
+                            onChange={(e) => setLocationName(e.target.value)}
+                            placeholder="e.g. Lagos, Nigeria"
+                            className="w-full p-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent text-xs font-mono" 
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="block text-[9px] uppercase tracking-[0.2em] text-accent font-semibold">Portfolio / Website</label>
+                          <input 
+                            type="text" 
+                            value={websiteUrl} 
+                            onChange={(e) => setWebsiteUrl(e.target.value)}
+                            placeholder="https://..."
+                            className="w-full p-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent text-xs font-mono" 
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="block text-[9px] uppercase tracking-[0.2em] text-accent font-semibold">Instagram Handle</label>
+                          <input 
+                            type="text" 
+                            value={instagramUrl} 
+                            onChange={(e) => setInstagramUrl(e.target.value)}
+                            placeholder="https://instagram.com/..."
+                            className="w-full p-3.5 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-accent text-xs font-mono" 
+                          />
+                        </div>
                       </div>
 
                       {/* Optional Interactive Custom Cursor Workspace Setting Switch */}
