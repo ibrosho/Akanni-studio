@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, Compass, ShieldAlert, Cpu } from 'lucide-react';
+import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers } from 'lucide-react';
 import TiltCard from './TiltCard';
 import PageTransition from './PageTransition';
+import { SectionReveal } from './Reveal';
 
-
-// Editorial Case Study Database
+// Editorial Case Study Database — Expanded to 8 Projects
 const PROJECT_DATABASE = [
   {
     id: "canopy",
@@ -16,6 +16,7 @@ const PROJECT_DATABASE = [
     role: "Lead Computational Architect",
     summary: "An open-air civic pavilion utilizing self-shading parametric timber arches and integrated water filtration micro-climates to revive urban public space.",
     heroImage: "rol.avif",
+    gallery: ["rol.avif", "pal.avif", "sky.avif"],
     challenge: "The urban heat island effect in dense tropical areas limits outdoor civic life. The project required a zero-carbon, self-cooling public shelter that harvested rainwater while keeping structural weight minimal.",
     process: "Using computational design and dynamic structural analysis, we engineered self-shading parametric timber arches. The curves are mathematically optimized to block midday solar radiation while funneling wind into micro-filtration misting systems fed by harvested rainwater.",
     outcome: "A stunning structural landmark that reduces ambient temperature by up to 6°C natively without mechanical air conditioning, creating a vibrant, cool community hub in the heart of Lagos.",
@@ -34,6 +35,7 @@ const PROJECT_DATABASE = [
     role: "Architectural & Interior Brand Designer",
     summary: "A minimalist coastal residence carved from low-carbon volcanic concrete, featuring massive structural cantilevered spans framing the Atlantic skyline.",
     heroImage: "pal.avif",
+    gallery: ["pal.avif", "rol.avif"],
     challenge: "To design a home that feels structurally impossible yet completely grounded in its coastal environment, resisting heavy Atlantic salt air erosion while maintaining a pure, brutalist minimalist aesthetic.",
     process: "We utilized custom-mixed volcanic concrete with high-durability, low-carbon additives. The structural core relies on a deep-set subterranean counterweight, allowing for a massive, gravity-defying cantilevered upper story with zero visible vertical pillars.",
     outcome: "An award-winning residential landmark featuring raw, poetic geometry. Seamless floor-to-ceiling glass transitions frame the ocean view, embodying absolute luxury and architectural restraint.",
@@ -52,6 +54,7 @@ const PROJECT_DATABASE = [
     role: "Facade Systems Specialist",
     summary: "A 45-story commercial skyscraper wrapped in a dynamic, kinetic solar-tracking envelope engineered to optimize internal thermal dynamics.",
     heroImage: "sky.avif",
+    gallery: ["sky.avif", "rol.avif"],
     challenge: "Traditional glass skyscrapers suffer from immense heat gain, resulting in massive HVAC electricity costs. The brief called for a sustainable high-rise that visually reacts to environmental shifts.",
     process: "We developed a parametric, kinetic facade system. Hundreds of automated, lightweight solar fins open and close dynamically based on real-time solar tracking, deflecting direct heat while maintaining ambient daylight.",
     outcome: "An architectural marvel that slashed high-rise cooling costs by 40% while establishing a fluid, shimmering identity along the skyline of Eko Atlantic City.",
@@ -60,19 +63,132 @@ const PROJECT_DATABASE = [
       { label: "Kinetic Shards", value: "1,200+" },
       { label: "Building Height", value: "185 Meters" }
     ]
+  },
+  {
+    id: "nexus",
+    title: "Nexus Structural Atelier",
+    category: "Computational Design",
+    client: "Lagos Spatial Initiative",
+    year: "2026",
+    role: "Principal Computational Architect",
+    summary: "A next-generation research hub exploring parametric timber shell structures and multi-agent spatial generation algorithms.",
+    heroImage: "/in1.avif",
+    gallery: ["/in1.avif", "pal.avif"],
+    challenge: "Developing a fluid spatial layout capable of housing heavy digital fabrication robotics alongside quiet collaborative design suites.",
+    process: "Using generative spatial packing algorithms, we sculpted acoustic zoning buffers natively into the concrete structure without solid partition walls.",
+    outcome: "A dynamic, high-tech atelier fostering cross-disciplinary computational research in a sunlit biophilic sanctuary.",
+    metrics: [
+      { label: "Acoustic Damping", value: "-24 dB" },
+      { label: "Robotic Bays", value: "8 Active" },
+      { label: "Daylight Lux", value: "1,400 lx" }
+    ]
+  },
+  {
+    id: "kora",
+    title: "Kora Monolithic Villa",
+    category: "Residential Architecture",
+    client: "Private Client",
+    year: "2025",
+    role: "Lead Design Strategist",
+    summary: "A secluded oceanfront residence integrated directly into volcanic cliff rock formations.",
+    heroImage: "/in3.avif",
+    gallery: ["/in3.avif", "/in1.avif"],
+    challenge: "Protecting living areas from extreme coastal winds while preserving uninhibited 270-degree ocean views.",
+    process: "We carved structural subterranean courtyards that act as wind shields while using triple-laminated acoustic glass panels.",
+    outcome: "A serene coastal sanctuary blending brutalist concrete forms with lush native greenery.",
+    metrics: [
+      { label: "Wind Deflection", value: "85%" },
+      { label: "Cliff Anchor Depth", value: "15 Meters" },
+      { label: "Glazing Height", value: "4.2 Meters" }
+    ]
+  },
+  {
+    id: "eko-kinetic",
+    title: "Eko Tech Headquarters",
+    category: "Commercial High-Rise",
+    client: "Eko Tech District",
+    year: "2026",
+    role: "Parametric Facade Engineer",
+    summary: "A dynamic 30-story commercial tower wrapped in photovoltaic kinetic glass panels.",
+    heroImage: "rol.avif",
+    gallery: ["rol.avif", "sky.avif"],
+    challenge: "Generating clean solar energy on-site while avoiding internal glare for office workers.",
+    process: "Engineered semi-transparent solar glass panels that tilt dynamically with sun position.",
+    outcome: "Generates 25% of its own annual electrical demand natively from solar facade harvesting.",
+    metrics: [
+      { label: "Solar Generation", value: "250 kW/h" },
+      { label: "Glare Reduction", value: "70%" },
+      { label: "Building Height", value: "135 Meters" }
+    ]
+  },
+  {
+    id: "horizon",
+    title: "Atelier Horizon Cultural Center",
+    category: "Cultural & Civic",
+    client: "Federal Ministry of Spatial Development",
+    year: "2026",
+    role: "Masterplan Consultant",
+    summary: "A sweeping civic museum celebrating West African architectural heritage and computational art.",
+    heroImage: "/in2.avif",
+    gallery: ["/in2.avif", "pal.avif"],
+    challenge: "Creating a massive column-free exhibition hall spanning over 60 meters.",
+    process: "Utilized post-tensioned hyperbolic paraboloid concrete roof shells.",
+    outcome: "An iconic cultural landmark receiving international acclaim for structural elegance.",
+    metrics: [
+      { label: "Column-Free Span", value: "62 Meters" },
+      { label: "Visitor Capacity", value: "3,500/day" },
+      { label: "Roof Thickness", value: "180 mm" }
+    ]
+  },
+  {
+    id: "solaria",
+    title: "Solaria Clean Energy Pavilion",
+    category: "Biophilic Urbanism",
+    client: "West Africa Solar Trust",
+    year: "2025",
+    role: "Environmental Systems Lead",
+    summary: "A self-sustaining public educational center powered completely by solar timber pergolas.",
+    heroImage: "sky.avif",
+    gallery: ["sky.avif", "rol.avif"],
+    challenge: "Designing a public pavilion that operates off-grid in extreme tropical humidity.",
+    process: "Integrated desiccant dehumidification systems driven by solar thermal heat pipes.",
+    outcome: "An educational beacon teaching sustainable urbanism to thousands of visitors monthly.",
+    metrics: [
+      { label: "Off-Grid Power", value: "100%" },
+      { label: "Water Harvested", value: "5,000 L/mo" },
+      { label: "Shade Area", value: "1,200 m²" }
+    ]
   }
 ];
+
+const CATEGORIES = ["ALL", "Biophilic Urbanism", "Residential Architecture", "Commercial High-Rise", "Computational Design", "Cultural & Civic"];
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
   const [blueprintMode, setBlueprintMode] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("ALL");
+
+  // Filter Logic
+  const filteredProjects = useMemo(() => {
+    return PROJECT_DATABASE.filter((proj) => {
+      const matchesCategory = activeCategory === "ALL" || proj.category === activeCategory;
+      const matchesSearch = 
+        proj.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        proj.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        proj.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        proj.role.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
 
   return (
     <PageTransition className="pt-32 px-6 max-w-5xl mx-auto">
       <div className="w-full min-h-screen pb-32 text-left">
         
         {/* Page Title Header */}
-        <div className="mb-16">
+        <div className="mb-12">
           <p className="text-[10px] font-mono tracking-[0.35em] text-accent uppercase mb-3">Selected Portfolios</p>
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white leading-none">
             ARCHIVE <span className="font-light italic text-zinc-500 lowercase">&</span> STORIES
@@ -80,50 +196,88 @@ export default function Projects() {
           <div className="h-[1px] bg-white/10 mt-8 w-full" />
         </div>
 
-        {/* Grid Layout (Parametric/Masonry Staggered Aesthetic) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
-          {PROJECT_DATABASE.map((project, idx) => {
-            // High-End Architectural layout rules:
-            // 1st project spans 7 cols, 2nd project spans 5 cols (tall aspect), 3rd spans 12 cols (wide panoramic).
-            const colSpan = idx === 0 ? "md:col-span-7" : idx === 1 ? "md:col-span-5" : "md:col-span-12";
-            const aspectClass = idx === 0 ? "aspect-[4/3]" : idx === 1 ? "aspect-[4/5] h-full" : "aspect-[16/7] md:aspect-[21/9]";
-            
-            return (
-              <div key={project.id} onClick={() => setActiveProject(project)} className={`group cursor-pointer ${colSpan}`}>
-                <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
-                  
-                  {/* Zooming background image on hover */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    <img 
-                      src={project.heroImage} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-80" 
-                    />
-                  </div>
+        {/* Search & Filter Controls */}
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center mb-8">
+          <div className="relative flex-1 max-w-md">
+            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
+            <input
+              type="text"
+              placeholder="Search projects, clients, roles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-full bg-white/[0.02] border border-white/10 text-white placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-accent transition-colors"
+            />
+          </div>
 
-                  {/* Ambient overlay vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 z-10" />
-
-                  {/* Card Meta Content */}
-                  <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 flex flex-col justify-end">
-                    <span className="text-[9px] font-mono text-accent uppercase tracking-widest mb-1.5">{project.category}</span>
-                    <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white leading-none">{project.title}</h3>
-                    
-                    <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-zinc-400 group-hover:text-white transition-colors">
-                      <span>Explore Case Study</span>
-                      <ArrowRight size={10} className="transform group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-
-                  {/* Floating index tag top-right */}
-                  <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-20 text-[10px] font-mono text-white/30">
-                    0{idx + 1}
-                  </div>
-                </TiltCard>
-              </div>
-            );
-          })}
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-full text-[9px] font-mono tracking-wider uppercase border transition-all cursor-pointer ${
+                  activeCategory === cat
+                    ? "bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(0,245,212,0.2)]"
+                    : "bg-white/[0.02] text-zinc-400 border-white/10 hover:text-white hover:border-white/30"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Grid Layout (Parametric/Masonry Staggered Aesthetic) */}
+        {filteredProjects.length === 0 ? (
+          <div className="py-20 text-center text-zinc-500 font-mono text-xs uppercase tracking-widest border border-dashed border-white/10 rounded-3xl">
+            No architectural projects matched your query.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
+            {filteredProjects.map((project, idx) => {
+              // Asynchronous Architectural grid layout rules:
+              const pattern = idx % 5;
+              const colSpan = pattern === 0 ? "md:col-span-7" : pattern === 1 ? "md:col-span-5" : pattern === 2 ? "md:col-span-12" : pattern === 3 ? "md:col-span-6" : "md:col-span-6";
+              const aspectClass = pattern === 0 ? "aspect-[4/3]" : pattern === 1 ? "aspect-[4/5] h-full" : pattern === 2 ? "aspect-[16/7] md:aspect-[21/9]" : "aspect-[16/10]";
+              
+              return (
+                <SectionReveal key={project.id} className={colSpan}>
+                  <div onClick={() => setActiveProject(project)} className="group cursor-pointer">
+                    <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
+                      
+                      {/* Zooming background image on hover */}
+                      <div className="absolute inset-0 w-full h-full overflow-hidden">
+                        <img 
+                          src={project.heroImage} 
+                          alt={project.title} 
+                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85" 
+                        />
+                      </div>
+
+                      {/* Ambient overlay vignette */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 z-10" />
+
+                      {/* Card Meta Content */}
+                      <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 flex flex-col justify-end">
+                        <span className="text-[9px] font-mono text-accent uppercase tracking-widest mb-1.5">{project.category}</span>
+                        <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white leading-none">{project.title}</h3>
+                        
+                        <div className="flex items-center gap-2 mt-4 text-[9px] font-mono text-zinc-400 group-hover:text-white transition-colors">
+                          <span>Explore Case Study</span>
+                          <ArrowRight size={10} className="transform group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+
+                      {/* Floating index tag top-right */}
+                      <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-20 text-[10px] font-mono text-white/40 font-bold">
+                        0{idx + 1}
+                      </div>
+                    </TiltCard>
+                  </div>
+                </SectionReveal>
+              );
+            })}
+          </div>
+        )}
 
         {/* FULL SCREEN MAGAZINE DETAILED VIEW MODAL */}
         <AnimatePresence>
@@ -173,7 +327,7 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* 3. FULL-SCREEN HERO IMAGE DISPLAY */}
+                {/* 3. HERO IMAGE DISPLAY (UNCROPPED & FULL VIEWABLE) */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-luxury-border">
                     <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-muted">Visualization Engine</span>
@@ -189,49 +343,33 @@ export default function Projects() {
                     </button>
                   </div>
 
-                  <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden border border-luxury-border relative bg-black">
+                  <div className="relative group w-full max-h-[50vh] sm:max-h-[500px] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center">
                     <img 
                       src={activeProject.heroImage} 
                       alt="Main Showcase Render" 
-                      className={`w-full h-full object-cover transition-all duration-700 ${
+                      onClick={() => setLightboxImage(activeProject.heroImage)}
+                      className={`max-w-full max-h-[48vh] sm:max-h-[480px] w-auto h-auto object-contain cursor-pointer transition-all duration-500 ${
                         blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
                       }`} 
                     />
 
+                    <button
+                      onClick={() => setLightboxImage(activeProject.heroImage)}
+                      className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-black/80 border border-white/20 text-white font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-md"
+                    >
+                      <Maximize2 size={12} className="text-accent" /> Full Screen Preview
+                    </button>
+
                     {blueprintMode && (
                       <div className="absolute inset-0 bg-cyan-950/20 pointer-events-none mix-blend-screen overflow-hidden">
-                        {/* Blueprint Grid Lines */}
                         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#00f5d4_1px,transparent_1px),linear-gradient(to_bottom,#00f5d4_1px,transparent_1px)] bg-[size:32px_32px]" />
-                        
-                        {/* CAD SVG HUD Markers */}
                         <svg className="absolute inset-0 w-full h-full text-accent/40 p-4 font-mono select-none" viewBox="0 0 800 450" fill="none" stroke="currentColor" strokeWidth="0.75">
-                          {/* Border corner brackets */}
                           <path d="M 20 50 L 20 20 L 50 20" />
                           <path d="M 750 20 L 780 20 L 780 50" />
                           <path d="M 20 400 L 20 430 L 50 430" />
                           <path d="M 750 430 L 780 430 L 780 400" />
-                          
-                          {/* Dynamic scale lines */}
                           <line x1="80" y1="380" x2="380" y2="380" strokeDasharray="4,4" />
-                          <line x1="80" y1="375" x2="80" y2="385" />
-                          <line x1="380" y1="375" x2="380" y2="385" />
                           <text x="230" y="372" fontSize="7" textAnchor="middle" fill="#00f5d4" className="font-semibold">DIMENSION A: 14.52m</text>
-
-                          <line x1="480" y1="120" x2="480" y2="320" strokeDasharray="4,4" />
-                          <line x1="475" y1="120" x2="485" y2="120" />
-                          <line x1="475" y1="320" x2="485" y2="320" />
-                          <text x="468" y="225" fontSize="7" textAnchor="middle" transform="rotate(-90 468 225)" fill="#00f5d4" className="font-semibold">ELEVATION B: 9.20m</text>
-                          
-                          {/* Plan annotations */}
-                          <text x="35" y="40" fontSize="8" fill="#00f5d4" opacity="0.8">DWG REF: AKANNI-SYS-C102</text>
-                          <text x="765" y="40" fontSize="8" fill="#00f5d4" opacity="0.8" textAnchor="end">SCALE: 1:100</text>
-                          <text x="35" y="415" fontSize="8" fill="#00f5d4" opacity="0.8">TOLERANCE: +/- 0.05</text>
-                          <text x="765" y="415" fontSize="8" fill="#00f5d4" opacity="0.8" textAnchor="end">GRID GRID SYSTEM: WGS84</text>
-                          
-                          {/* Center Target crosshairs */}
-                          <circle cx="400" cy="225" r="24" strokeDasharray="2,2" opacity="0.4" />
-                          <line x1="370" y1="225" x2="430" y2="225" opacity="0.4" strokeDasharray="2,2" />
-                          <line x1="400" y1="195" x2="400" y2="255" opacity="0.4" strokeDasharray="2,2" />
                         </svg>
                       </div>
                     )}
@@ -269,7 +407,30 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {/* 6. FINAL OUTCOME STORY */}
+                {/* 6. PROJECT GALLERY STRIP */}
+                {activeProject.gallery && activeProject.gallery.length > 0 && (
+                  <div className="space-y-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center gap-2 font-mono text-[10px] text-accent uppercase tracking-widest font-bold">
+                      <Layers size={12} /> Case Study Visual Assets (Tap to Expand)
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {activeProject.gallery.map((imgSrc, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => setLightboxImage(imgSrc)}
+                          className="group aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-black cursor-pointer relative"
+                        >
+                          <img src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Maximize2 size={16} className="text-accent" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 7. FINAL OUTCOME STORY */}
                 <div className="text-center max-w-3xl mx-auto space-y-6 pt-4 pb-8">
                   <div className="flex items-center justify-center gap-2 text-accent">
                     <Compass size={14} />
@@ -279,7 +440,7 @@ export default function Projects() {
                   <p className="text-zinc-400 text-base font-light leading-relaxed">{activeProject.outcome}</p>
                 </div>
 
-                {/* 7. PREVIOUS / NEXT PROJECT NAVIGATION BAR */}
+                {/* 8. PREVIOUS / NEXT PROJECT NAVIGATION BAR */}
                 <div className="border-t border-white/10 pt-12 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest">
                   <button
                     onClick={() => {
@@ -304,6 +465,34 @@ export default function Projects() {
                   </button>
                 </div>
 
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* LIGHTBOX MODAL FOR FULL SCREEN UNCROPPED IMAGE PREVIEW */}
+        <AnimatePresence>
+          {lightboxImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100000] bg-black/95 flex items-center justify-center p-4 backdrop-blur-2xl"
+              onClick={() => setLightboxImage(null)}
+            >
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="fixed top-8 right-8 w-12 h-12 rounded-full border border-white/20 bg-black/80 flex items-center justify-center text-white hover:text-accent hover:border-accent transition-all cursor-pointer z-50"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="relative max-w-7xl max-h-[90vh] flex items-center justify-center overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                <img
+                  src={lightboxImage}
+                  alt="Full Picture View"
+                  className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                />
               </div>
             </motion.div>
           )}

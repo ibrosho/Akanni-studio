@@ -413,8 +413,8 @@ export default function Insights() {
               </div>
 
               {/* Essay Content Container */}
-              <div className="max-w-4xl mx-auto px-6 py-32 space-y-10 text-left">
-                <div className="space-y-4">
+              <div className="max-w-4xl mx-auto px-6 pt-24 pb-32 space-y-8 text-left">
+                <div className="space-y-3">
                   <div className="flex items-center gap-3 font-mono text-[10px] text-accent uppercase tracking-widest">
                     <span>{readingArticle.category}</span>
                     <span>•</span>
@@ -428,18 +428,18 @@ export default function Insights() {
                 </div>
 
                 {/* UNCROPPED HERO IMAGE CONTAINER WITH LIGHTBOX CLICK */}
-                <div className="relative group w-full rounded-3xl overflow-hidden border border-white/10 bg-black/80 flex items-center justify-center my-8 shadow-2xl">
+                <div className="relative group w-full max-h-[50vh] sm:max-h-[480px] rounded-2xl overflow-hidden border border-white/10 bg-black/90 flex items-center justify-center my-6 shadow-2xl">
                   <img 
                     src={readingArticle.image} 
                     alt={readingArticle.title} 
-                    className="w-full h-auto max-h-[75vh] object-contain cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
+                    className="max-w-full max-h-[48vh] sm:max-h-[460px] w-auto h-auto object-contain cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
                     onClick={() => setLightboxImage(readingArticle.image)}
                   />
                   <button
                     onClick={() => setLightboxImage(readingArticle.image)}
                     className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-black/80 border border-white/20 text-white font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-md"
                   >
-                    <Maximize2 size={12} className="text-accent" /> View Full Uncropped Photo
+                    <Maximize2 size={12} className="text-accent" /> View Fullscreen Picture
                   </button>
                 </div>
 

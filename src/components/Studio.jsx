@@ -69,7 +69,7 @@ export default function Studio() {
 
             <div className="flex flex-wrap gap-4 pt-2">
               <a 
-                href="https://www.instagram.com/akanni__printing?igsh=M3NjNmlyamJ5em56"
+                href="https://wa.me/2348104271840"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-6 h-11 border border-white/10 hover:border-cyan-400/30 bg-white/[0.02] text-gray-300 hover:text-white text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] group"
