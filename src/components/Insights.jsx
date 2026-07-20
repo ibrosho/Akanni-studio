@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Check } from 'lucide-react';
+import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import PageTransition from './PageTransition';
 import { SectionReveal } from './Reveal';
 
+// Expanded Architectural Insights Database
 const INSIGHTS_ARTICLES = [
   {
     id: 1,
@@ -13,9 +14,17 @@ const INSIGHTS_ARTICLES = [
     date: "JULY 2026",
     readTime: 5,
     summary: "An exploration into how low-carbon volcanic concrete mixes stand up against coastal salt erosion while maintaining a pure, uncompromising geometric form language.",
-    body: "Brutalism in contemporary architecture is experiencing a monumental renaissance. Far from the oppressive grey monolithic structures of the mid-20th century, contemporary brutalist design embraces material authenticity, micro-textured aggregate mixes, and biophilic light integration...\n\nBy leveraging volcanic ash, low-carbon additives, and subterranean counterweight anchors, architects can now span immense structural cantilevers over Atlantic coastlines without succumbing to saline corrosion or structural fatigue.",
+    body: `Brutalism in contemporary architecture is experiencing a monumental renaissance. Far from the oppressive grey monolithic structures of the mid-20th century, contemporary brutalist design embraces material authenticity, micro-textured aggregate mixes, and biophilic light integration.
+
+By leveraging volcanic ash, low-carbon additives, and subterranean counterweight anchors, architects can now span immense structural cantilevers over Atlantic coastlines without succumbing to saline corrosion or structural fatigue.
+
+Key Structural Innovations:
+1. Volcanic Ash PoZZolan Mixes — Reduces carbon footprint by 35% while increasing compressive density.
+2. Hydrophobic Sealant Coatings — Prevents salt-air intrusion into internal steel rebar matrix.
+3. Subterranean Counterweights — Enables 12-meter gravity-defying cantilever overhangs.`,
     featured: true,
-    image: "/in1.avif"
+    image: "/in1.avif",
+    gallery: ["/in1.avif", "pal.avif", "rol.avif"]
   },
   {
     id: 2,
@@ -24,9 +33,14 @@ const INSIGHTS_ARTICLES = [
     date: "JUNE 2026",
     readTime: 4,
     summary: "Breaking down the mathematical balance behind designing vector monograms that scale flawlessly from digital viewports down to custom laser-cut textures.",
-    body: "A logo for an architectural firm must communicate spatial integrity in two dimensions. Monograms built on strict grid ratios—such as the golden ratio or isometric 30-degree angles—retain geometric legibility whether displayed on a 4K viewport or engraved into raw brass door hardware.",
+    body: `A logo for an architectural firm must communicate spatial integrity in two dimensions. Monograms built on strict grid ratios—such as the golden ratio or isometric 30-degree angles—retain geometric legibility whether displayed on a 4K viewport or engraved into raw brass door hardware.
+
+Vector Math & Grid Alignment:
+- Root-2 Rectangle proportions ensure harmonious visual hierarchy across letterheads and signage.
+- 0.5px line weight adjustments compensate for physical laser-ablation burn bleeding during print production.`,
     featured: false,
-    image: "/in2.avif"
+    image: "/in2.avif",
+    gallery: ["/in2.avif", "in3.avif"]
   },
   {
     id: 3,
@@ -35,9 +49,12 @@ const INSIGHTS_ARTICLES = [
     date: "MAY 2026",
     readTime: 7,
     summary: "How parametric timber curves and passive architectural air-funnels can lower localized micro-climate temperatures dynamically without relying on electrical grids.",
-    body: "Urban heat islands represent one of the greatest challenges in tropical metropolitan centers like Lagos. By combining computational fluid dynamics (CFD) with parametric timber louver arrays, passive structural cooling can achieve up to a 6°C reduction in ambient temperature natively.",
+    body: `Urban heat islands represent one of the greatest challenges in tropical metropolitan centers like Lagos. By combining computational fluid dynamics (CFD) with parametric timber louver arrays, passive structural cooling can achieve up to a 6°C reduction in ambient temperature natively.
+
+The pavilion utilizes 142 unique CNC-milled glue-laminated timber arches. Rainwater harvested from the canopy roof feeds integrated misting nozzles that utilize Bernoullian air pressure differentials to generate micro-climates without pumps.`,
     featured: false,
-    image: "pal.avif"
+    image: "pal.avif",
+    gallery: ["pal.avif", "rol.avif", "sky.avif"]
   },
   {
     id: 4,
@@ -46,9 +63,69 @@ const INSIGHTS_ARTICLES = [
     date: "APRIL 2026",
     readTime: 3,
     summary: "Why digital-first brands are investing heavily in physical touchpoints, debossed premium paper stocks, and high-contrast branding layouts.",
-    body: "In an era dominated by ephemeral digital interactions, physical print artifacts carry elevated prestige. A debossed 600gsm cotton card with foil-stamped architectural monograms creates an unmistakable haptic impression that digital screens cannot replicate.",
+    body: `In an era dominated by ephemeral digital interactions, physical print artifacts carry elevated prestige. A debossed 600gsm cotton card with foil-stamped architectural monograms creates an unmistakable haptic impression that digital screens cannot replicate.
+
+Production Standards:
+- Paper Stock: 600gsm Uncoated Italian Cotton Rag.
+- Finishing: Blind Deboss with Micro-Foil Accents.
+- Edge Trim: Gilded Cyan Foil Edge Dyeing.`,
     featured: false,
-    image: "in3.avif"
+    image: "in3.avif",
+    gallery: ["in3.avif", "/in2.avif"]
+  },
+  {
+    id: 5,
+    title: "Parametric Cantilevers: Volcanic Ash & Structural Dynamics",
+    category: "Spatial Design",
+    date: "MARCH 2026",
+    readTime: 6,
+    summary: "Deep dive into structural calculations for cantilevered residential slabs over volatile coastal soil profiles.",
+    body: `When designing the Mizora Monolith, soil borings revealed a high water table and sand-silt composition. Standard shallow foundations would result in differential settling under high moment loads from the cantilevered upper floor.
+
+Our engineering team implemented 18-meter friction piers coupled with a subterranean concrete counterweight box filled with high-density iron ore slag. This anchor holds the upper 12-meter cantilever in equilibrium even under category 3 wind shear.`,
+    featured: false,
+    image: "rol.avif",
+    gallery: ["rol.avif", "pal.avif"]
+  },
+  {
+    id: 6,
+    title: "Kinetic Solar Facades: Reducing Commercial HVAC Loads by 40%",
+    category: "Architecture",
+    date: "FEBRUARY 2026",
+    readTime: 8,
+    summary: "Engineering dynamic solar-tracking louvers that mitigate direct heat gain while preserving natural daylighting in commercial towers.",
+    body: `The Zenith Tower facade incorporates 1,200 dynamic kinetic shading panels controlled by a centralized BACnet building automation system. Each panel adjusts its orientation angle every 15 minutes to track solar azimuth and elevation.
+
+This kinetic skin reduces direct thermal solar gain by 52% during peak midday hours, translating directly into a 40% reduction in chiller tonnage requirements for HVAC operations.`,
+    featured: false,
+    image: "sky.avif",
+    gallery: ["sky.avif", "rol.avif"]
+  },
+  {
+    id: 7,
+    title: "Computational Monoliths: Subterranean Counterweight Anchors",
+    category: "Spatial Design",
+    date: "JANUARY 2026",
+    readTime: 5,
+    summary: "Exploring how heavy mass structures achieve visual weightlessness through concealed structural engineering.",
+    body: `Minimalist architecture relies on the illusion of simplicity. Behind a floating concrete beam lies complex stress tensors, post-tensioned steel cables, and load-transfer diaphragms.
+
+This paper breaks down the finite element modeling (FEM) procedures used to simulate stress distribution across multi-axis joint connections in raw concrete monoliths.`,
+    featured: false,
+    image: "/in1.avif",
+    gallery: ["/in1.avif", "sky.avif"]
+  },
+  {
+    id: 8,
+    title: "Vector Typographic Grids: Laser-Cut Architectural Signage",
+    category: "Branding",
+    date: "DECEMBER 2025",
+    readTime: 4,
+    summary: "Translating digital brand typography into physical spatial orientation markers and anodized aluminum wayfinding systems.",
+    body: `Wayfinding in large architectural complexes requires legibility at varying viewing angles and distances. We utilize custom typographic kerning tables optimized specifically for back-lit stainless steel and matte black anodized aluminum substrates.`,
+    featured: false,
+    image: "/in2.avif",
+    gallery: ["/in2.avif", "in3.avif"]
   }
 ];
 
@@ -60,6 +137,7 @@ export default function Insights() {
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [sortBy, setSortBy] = useState("latest"); // latest | shortest | longest
   const [readingArticle, setReadingArticle] = useState(null);
+  const [lightboxImage, setLightboxImage] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Bookmarks persistence
@@ -73,7 +151,7 @@ export default function Insights() {
     let next;
     if (bookmarks.includes(id)) {
       next = bookmarks.filter(b => b !== id);
-      showToast("Article removed from saved bookmarks.", "info");
+      showToast("Article removed from saved library.", "info");
     } else {
       next = [...bookmarks, id];
       showToast("Article saved to your studio library.", "info");
@@ -96,13 +174,14 @@ export default function Insights() {
         const matchesSearch = 
           art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           art.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          art.body.toLowerCase().includes(searchQuery.toLowerCase()) ||
           art.category.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
       })
       .sort((a, b) => {
         if (sortBy === "shortest") return a.readTime - b.readTime;
         if (sortBy === "longest") return b.readTime - a.readTime;
-        return b.id - a.id; // latest default
+        return b.id - a.id;
       });
   }, [activeCategory, searchQuery, sortBy]);
 
@@ -133,7 +212,7 @@ export default function Insights() {
             <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
             <input
               type="text"
-              placeholder="Search essays, design systems..."
+              placeholder="Search essays, design systems, materials..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-full bg-white/[0.02] border border-white/10 text-white placeholder-zinc-500 text-xs font-mono focus:outline-none focus:border-accent transition-colors"
@@ -175,7 +254,7 @@ export default function Insights() {
         {/* 4. ARTICLES GRID */}
         {processedArticles.length === 0 ? (
           <div className="py-20 text-center text-zinc-500 font-mono text-xs uppercase tracking-widest border border-dashed border-white/10 rounded-3xl">
-            No architectural essays matched your query.
+            No architectural essays matched your search query.
           </div>
         ) : (
           <div className="space-y-12">
@@ -294,7 +373,7 @@ export default function Insights() {
           </div>
         )}
 
-        {/* READ ARTICLE FULL-SCREEN MODAL WITH READING PROGRESS BAR */}
+        {/* READ ARTICLE FULL-SCREEN MODAL WITH UNCROPPED IMAGE & GALLERY */}
         <AnimatePresence>
           {readingArticle && (
             <motion.div
@@ -334,7 +413,7 @@ export default function Insights() {
               </div>
 
               {/* Essay Content Container */}
-              <div className="max-w-3xl mx-auto px-6 py-32 space-y-8 text-left">
+              <div className="max-w-4xl mx-auto px-6 py-32 space-y-10 text-left">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 font-mono text-[10px] text-accent uppercase tracking-widest">
                     <span>{readingArticle.category}</span>
@@ -348,13 +427,77 @@ export default function Insights() {
                   </h1>
                 </div>
 
-                <div className="w-full aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 my-8">
-                  <img src={readingArticle.image} alt={readingArticle.title} className="w-full h-full object-cover" />
+                {/* UNCROPPED HERO IMAGE CONTAINER WITH LIGHTBOX CLICK */}
+                <div className="relative group w-full rounded-3xl overflow-hidden border border-white/10 bg-black/80 flex items-center justify-center my-8 shadow-2xl">
+                  <img 
+                    src={readingArticle.image} 
+                    alt={readingArticle.title} 
+                    className="w-full h-auto max-h-[75vh] object-contain cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
+                    onClick={() => setLightboxImage(readingArticle.image)}
+                  />
+                  <button
+                    onClick={() => setLightboxImage(readingArticle.image)}
+                    className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-black/80 border border-white/20 text-white font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-md"
+                  >
+                    <Maximize2 size={12} className="text-accent" /> View Full Uncropped Photo
+                  </button>
                 </div>
 
+                {/* ESSAY BODY NARRATIVE */}
                 <div className="space-y-6 text-zinc-300 font-light text-base sm:text-lg leading-relaxed whitespace-pre-line antialiased">
                   {readingArticle.body || readingArticle.summary}
                 </div>
+
+                {/* ARTICLE GALLERY STRIP */}
+                {readingArticle.gallery && readingArticle.gallery.length > 0 && (
+                  <div className="space-y-4 pt-8 border-t border-white/10">
+                    <div className="flex items-center gap-2 font-mono text-[10px] text-accent uppercase tracking-widest font-bold">
+                      <Layers size={12} /> Spatial Photographic Gallery (Tap to Expand)
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {readingArticle.gallery.map((imgSrc, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => setLightboxImage(imgSrc)}
+                          className="group aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-black cursor-pointer relative"
+                        >
+                          <img src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Maximize2 size={16} className="text-accent" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* FULLSCREEN LIGHTBOX MODAL FOR UNCROPPED PICTURE INSPECTION */}
+        <AnimatePresence>
+          {lightboxImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100000] bg-black/95 flex items-center justify-center p-4 backdrop-blur-2xl"
+              onClick={() => setLightboxImage(null)}
+            >
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="fixed top-8 right-8 w-12 h-12 rounded-full border border-white/20 bg-black/80 flex items-center justify-center text-white hover:text-accent hover:border-accent transition-all cursor-pointer z-50"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="relative max-w-7xl max-h-[90vh] flex items-center justify-center overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                <img
+                  src={lightboxImage}
+                  alt="Full Picture View"
+                  className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                />
               </div>
             </motion.div>
           )}
