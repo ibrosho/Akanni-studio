@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers } from 'lucide-react';
+import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers, Download } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import PageTransition from './PageTransition';
 import { SectionReveal } from './Reveal';
 
-// Expanded Architectural Insights Database
+// Expanded Architectural Insights Database — 8 Essays with 18 Unique Photo Assets
 const INSIGHTS_ARTICLES = [
   {
     id: 1,
@@ -19,12 +19,13 @@ const INSIGHTS_ARTICLES = [
 By leveraging volcanic ash, low-carbon additives, and subterranean counterweight anchors, architects can now span immense structural cantilevers over Atlantic coastlines without succumbing to saline corrosion or structural fatigue.
 
 Key Structural Innovations:
-1. Volcanic Ash PoZZolan Mixes — Reduces carbon footprint by 35% while increasing compressive density.
+1. Volcanic Ash Pozzolan Mixes — Reduces carbon footprint by 35% while increasing compressive density.
 2. Hydrophobic Sealant Coatings — Prevents salt-air intrusion into internal steel rebar matrix.
 3. Subterranean Counterweights — Enables 12-meter gravity-defying cantilever overhangs.`,
     featured: true,
-    image: "/in1.avif",
-    gallery: ["/in1.avif", "pal.avif", "rol.avif"]
+    image: "/monolith.avif",
+    video: "/aka.mp4",
+    gallery: ["/monolith.avif", "/interior_lounge.jpg", "/light_shadow.jpg", "/sunshaft.avif"]
   },
   {
     id: 2,
@@ -33,93 +34,95 @@ Key Structural Innovations:
     date: "JUNE 2026",
     readTime: 4,
     summary: "Breaking down the mathematical balance behind designing vector monograms that scale flawlessly from digital viewports down to custom laser-cut textures.",
-    image: "/in2.avif",
-    gallery: ["/in2.avif", "in3.avif"]
+    body: `A logo for an architectural firm must communicate spatial integrity in two dimensions. Monogram design requires an understanding of stroke weight, negative space balance, and geometric symmetry.
+
+In this editorial piece, we examine vector control points, optical curve alignment, and how to engineer monograms that retain absolute visual clarity across digital displays and physical embossing.`,
+    featured: false,
+    image: "/atelier.avif",
+    video: "/studio_loop.mp4",
+    gallery: ["/atelier.avif", "/staircase.avif", "/facade_detail.avif"]
   },
   {
     id: 3,
-    title: "Biophilic Frameworks: Engineering Self-Cooling Public Pavilions",
+    title: "Parametric Timber Pergolas: Zero-Carbon Biophilic Shading Systems",
     category: "Architecture",
     date: "MAY 2026",
-    readTime: 7,
-    summary: "How parametric timber curves and passive architectural air-funnels can lower localized micro-climate temperatures dynamically without relying on electrical grids.",
-    body: `Urban heat islands represent one of the greatest challenges in tropical metropolitan centers like Lagos. By combining computational fluid dynamics (CFD) with parametric timber louver arrays, passive structural cooling can achieve up to a 6°C reduction in ambient temperature natively.
+    readTime: 6,
+    summary: "How computational algorithms optimize timber curves to maximize passive cooling while minimizing structural weight and material waste.",
+    body: `As tropical cities expand, urban heat islands threaten outdoor civic engagement. The Canopy Pavilion demonstrates how parametric timber pergolas can passively lower ambient temperatures by up to 6°C natively without mechanical HVAC systems.
 
-The pavilion utilizes 142 unique CNC-milled glue-laminated timber arches. Rainwater harvested from the canopy roof feeds integrated misting nozzles that utilize Bernoullian air pressure differentials to generate micro-climates without pumps.`,
+Using multi-variable computational fluid dynamics, timber ribs are curved to channel prevailing sea breezes through integrated micro-misting nozzles fed by harvested rainwater.`,
     featured: false,
-    image: "pal.avif",
-    gallery: ["pal.avif", "rol.avif", "sky.avif"]
+    image: "/canopy.avif",
+    video: "/pavilion_loop.mp4",
+    gallery: ["/canopy.avif", "/timber_roo.avif", "/courtyard.jpg"]
   },
   {
     id: 4,
-    title: "Tactile Luxury: The Return of Heavy-Weight Premium Print Formats",
+    title: "High-Performance Facades: Kinetic Shading for High-Rise Efficiency",
     category: "Production",
     date: "APRIL 2026",
-    readTime: 3,
-    summary: "Why digital-first brands are investing heavily in physical touchpoints, debossed premium paper stocks, and high-contrast branding layouts.",
-    body: `In an era dominated by ephemeral digital interactions, physical print artifacts carry elevated prestige. A debossed 600gsm cotton card with foil-stamped architectural monograms creates an unmistakable haptic impression that digital screens cannot replicate.
+    readTime: 7,
+    summary: "A deep dive into automated solar-tracking kinetic facades that slash commercial cooling demands by over 40%.",
+    body: `High-rise commercial architecture faces an existential sustainability challenge: direct solar glare. Traditional reflective glass creates urban heat reflection, while static blinds obscure interior daylight.
 
-Production Standards:
-- Paper Stock: 600gsm Uncoated Italian Cotton Rag.
-- Finishing: Blind Deboss with Micro-Foil Accents.
-- Edge Trim: Gilded Cyan Foil Edge Dyeing.`,
+By wrapping skyscrapers in automated photovoltaic kinetic shards, building envelopes actively track solar trajectories, deflecting peak heat radiation while generating zero-carbon electricity on-site.`,
     featured: false,
-    image: "in3.avif",
-    gallery: ["in3.avif", "/in2.avif"]
+    image: "/skyscraper.avif",
+    video: "/skyline_loop.mp4",
+    gallery: ["/skyscraper.avif", "/photovoltaic.avif", "/urban_masterplan.jpg"]
   },
   {
     id: 5,
-    title: "Parametric Cantilevers: Volcanic Ash & Structural Dynamics",
-    category: "Spatial Design",
+    title: "Volcanic Cantilevers: Engineering Gravity-Defying Minimalist Spans",
+    category: "Architecture",
     date: "MARCH 2026",
     readTime: 6,
-    summary: "Deep dive into structural calculations for cantilevered residential slabs over volatile coastal soil profiles.",
-    body: `When designing the Mizora Monolith, soil borings revealed a high water table and sand-silt composition. Standard shallow foundations would result in differential settling under high moment loads from the cantilevered upper floor.
-
-Our engineering team implemented 18-meter friction piers coupled with a subterranean concrete counterweight box filled with high-density iron ore slag. This anchor holds the upper 12-meter cantilever in equilibrium even under category 3 wind shear.`,
+    summary: "Analyzing subterranean counterweight engineering and carbon-neutral volcanic aggregates in luxury coastal residences.",
+    body: `Creating a 12-meter cantilever overhang over an ocean cliff requires re-engineering standard concrete formulas. By blending local volcanic aggregate with high-tensile steel tendons, structural engineers can balance immense rotational moments without visible vertical columns.`,
     featured: false,
-    image: "rol.avif",
-    gallery: ["rol.avif", "pal.avif"]
+    image: "/cliffside.avif",
+    video: "/drv.mp4",
+    gallery: ["/cliffside.avif", "/water_reflect.avif", "/light_shadow.jpg"]
   },
   {
     id: 6,
-    title: "Kinetic Solar Facades: Reducing Commercial HVAC Loads by 40%",
-    category: "Architecture",
+    title: "Subterranean Light Wells: Sculpting Daylight in Concrete Sanctuaries",
+    category: "Spatial Design",
     date: "FEBRUARY 2026",
-    readTime: 8,
-    summary: "Engineering dynamic solar-tracking louvers that mitigate direct heat gain while preserving natural daylighting in commercial towers.",
-    body: `The Zenith Tower facade incorporates 1,200 dynamic kinetic shading panels controlled by a centralized BACnet building automation system. Each panel adjusts its orientation angle every 15 minutes to track solar azimuth and elevation.
-
-This kinetic skin reduces direct thermal solar gain by 52% during peak midday hours, translating directly into a 40% reduction in chiller tonnage requirements for HVAC operations.`,
+    readTime: 5,
+    summary: "Funneling natural daylight into subterranean spaces using parabolic light tubes and polished concrete reflectors.",
+    body: `Lighting below-ground spaces without artificial glare is an art form. By sculpting parabolic ceiling light shafts lined with polished concrete, ambient sunlight is diffused evenly into lower-level studio galleries.`,
     featured: false,
-    image: "sky.avif",
-    gallery: ["sky.avif", "rol.avif"]
+    image: "/sunshaft.avif",
+    video: "/aka2.mp4",
+    gallery: ["/sunshaft.avif", "/glass_pavilion.avif", "/interior_lounge.jpg"]
   },
   {
     id: 7,
-    title: "Computational Monoliths: Subterranean Counterweight Anchors",
-    category: "Spatial Design",
+    title: "Typographic Wayfinding in Public Infrastructure",
+    category: "Branding",
     date: "JANUARY 2026",
-    readTime: 5,
-    summary: "Exploring how heavy mass structures achieve visual weightlessness through concealed structural engineering.",
-    body: `Minimalist architecture relies on the illusion of simplicity. Behind a floating concrete beam lies complex stress tensors, post-tensioned steel cables, and load-transfer diaphragms.
-
-This paper breaks down the finite element modeling (FEM) procedures used to simulate stress distribution across multi-axis joint connections in raw concrete monoliths.`,
+    readTime: 4,
+    summary: "Designing legibility, contrast, and spatial hierarchy for high-density transport nodes and civic plazas.",
+    body: `Environmental graphic design bridging typography and civic space requires testing font weight against sunlight glare and viewing distances. We dissect directional signage design engineered for public transit hubs.`,
     featured: false,
-    image: "/in1.avif",
-    gallery: ["/in1.avif", "sky.avif"]
+    image: "/museum.avif",
+    video: "/yum.mp4",
+    gallery: ["/museum.avif", "/bridge.jpg", "/staircase.avif"]
   },
   {
     id: 8,
-    title: "Vector Typographic Grids: Laser-Cut Architectural Signage",
-    category: "Branding",
+    title: "Computational Micro-Climates in Tropical Urbanism",
+    category: "Production",
     date: "DECEMBER 2025",
-    readTime: 4,
-    summary: "Translating digital brand typography into physical spatial orientation markers and anodized aluminum wayfinding systems.",
-    body: `Wayfinding in large architectural complexes requires legibility at varying viewing angles and distances. We utilize custom typographic kerning tables optimized specifically for back-lit stainless steel and matte black anodized aluminum substrates.`,
+    readTime: 8,
+    summary: "Deploying sensor networks and generative rain harvesting to create cool public micro-climates.",
+    body: `Integrating real-time environmental sensors into urban pergolas enables automated water misting cycles during peak heat hours, transforming scorching concrete plazas into cool public sanctuaries.`,
     featured: false,
-    image: "/in2.avif",
-    gallery: ["/in2.avif", "in3.avif"]
+    image: "/photovoltaic.avif",
+    video: "/yug.mp4",
+    gallery: ["/photovoltaic.avif", "/urban_masterplan.jpg", "/courtyard.jpg"]
   }
 ];
 
@@ -129,7 +132,7 @@ export default function Insights() {
   const { showToast } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("ALL");
-  const [sortBy, setSortBy] = useState("latest"); // latest | shortest | longest
+  const [sortBy, setSortBy] = useState("latest");
   const [readingArticle, setReadingArticle] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -219,8 +222,6 @@ export default function Insights() {
 
         {/* 2. SEARCH & FILTER CONTROLS BAR */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center mb-10">
-          
-          {/* Search Input */}
           <div className="relative flex-1 max-w-md">
             <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
             <input
@@ -232,39 +233,34 @@ export default function Insights() {
             />
           </div>
 
-          {/* Sort Dropdown */}
-          <div className="flex items-center gap-3">
-            <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 font-bold">Sort:</span>
+          <div className="flex flex-wrap gap-2 items-center">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-full text-[9px] font-mono tracking-wider uppercase border transition-all cursor-pointer ${
+                  activeCategory === cat
+                    ? "bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(0,245,212,0.2)]"
+                    : "bg-white/[0.02] text-zinc-400 border-white/10 hover:text-white hover:border-white/30"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2.5 rounded-full bg-black border border-white/10 text-white font-mono text-[10px] uppercase tracking-wider focus:outline-none focus:border-accent cursor-pointer"
+              className="px-3 py-1.5 rounded-full bg-black border border-white/10 text-zinc-400 text-[9px] font-mono uppercase focus:outline-none cursor-pointer"
             >
-              <option value="latest">Latest First</option>
-              <option value="shortest">Shortest Read</option>
-              <option value="longest">Longest Read</option>
+              <option value="latest">Sort: Latest</option>
+              <option value="shortest">Sort: Shortest Read</option>
+              <option value="longest">Sort: Longest Read</option>
             </select>
           </div>
         </div>
 
-        {/* 3. CATEGORY TABS */}
-        <div className="flex flex-wrap gap-2.5 mb-12">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-[10px] font-mono tracking-wider uppercase border transition-all cursor-pointer ${
-                activeCategory === cat
-                  ? "bg-accent text-black border-accent font-bold shadow-[0_0_15px_rgba(0,245,212,0.2)]"
-                  : "bg-white/[0.02] text-zinc-400 border-white/10 hover:text-white hover:border-white/30"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* 4. ARTICLES GRID */}
+        {/* 3. ARTICLES GRID */}
         {processedArticles.length === 0 ? (
           <div className="py-20 text-center text-zinc-500 font-mono text-xs uppercase tracking-widest border border-dashed border-white/10 rounded-3xl">
             No architectural essays matched your search query.
@@ -280,11 +276,24 @@ export default function Insights() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden bg-zinc-900">
-                      <img 
-                        src={article.image} 
-                        alt={article.title} 
-                        className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
-                      />
+                      {article.video ? (
+                        <video 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline 
+                          poster={article.image}
+                          className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                        >
+                          <source src={article.video} type="video/mp4" />
+                        </video>
+                      ) : (
+                        <img 
+                          src={article.image} 
+                          alt={article.title} 
+                          className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent" />
                     </div>
                     
@@ -298,31 +307,14 @@ export default function Insights() {
                         <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight text-white leading-tight group-hover:text-accent transition-colors">
                           {article.title}
                         </h3>
-                        <p className="text-zinc-400 font-light text-sm leading-relaxed">
+                        <p className="text-zinc-400 font-light text-sm line-clamp-3 leading-relaxed">
                           {article.summary}
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between w-full pt-8 mt-4 border-t border-white/5">
-                        <div className="flex items-center gap-2 text-[10px] font-mono uppercase text-zinc-400 group-hover:text-white transition-colors">
-                          <span>Read Essay</span>
-                          <ArrowUpRight size={12} className="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-accent" />
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <button 
-                            onClick={(e) => toggleBookmark(article.id, e)}
-                            className="p-2 rounded-full hover:bg-white/10 text-zinc-400 hover:text-accent transition-colors"
-                          >
-                            <Bookmark size={14} className={bookmarks.includes(article.id) ? "fill-accent text-accent" : ""} />
-                          </button>
-                          <button 
-                            onClick={(e) => handleShare(article, e)}
-                            className="p-2 rounded-full hover:bg-white/10 text-zinc-400 hover:text-accent transition-colors"
-                          >
-                            <Share2 size={14} />
-                          </button>
-                        </div>
+                      <div className="flex items-center gap-2 mt-8 text-[10px] font-mono text-accent uppercase tracking-widest font-bold">
+                        <span>Read Full Editorial</span>
+                        <ArrowUpRight size={12} className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                       </div>
                     </div>
                   </div>
@@ -330,25 +322,41 @@ export default function Insights() {
               </SectionReveal>
             ))}
 
-            {/* STANDARD GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {processedArticles.filter(a => !a.featured || activeCategory !== "ALL" || searchQuery).map((article) => (
+            {/* REGULAR ESSAYS GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {processedArticles.filter(a => !(a.featured && activeCategory === "ALL" && !searchQuery)).map((article) => (
                 <SectionReveal key={article.id}>
                   <div 
                     onClick={() => { setReadingArticle(article); setScrollProgress(0); }}
-                    className="group cursor-pointer flex flex-col justify-between border border-white/[0.06] bg-zinc-950/20 rounded-3xl p-6 hover:border-accent/30 hover:bg-zinc-950/60 transition-all duration-300 h-full"
+                    className="group cursor-pointer border border-white/[0.06] bg-zinc-950/40 rounded-3xl p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-500 shadow-xl h-full"
                   >
-                    <div className="space-y-4">
-                      <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-900 border border-white/[0.04]">
-                        <img 
-                          src={article.image} 
-                          alt={article.title} 
-                          className="w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-500"
-                        />
+                    <div className="space-y-5">
+                      <div className="aspect-[16/10] rounded-2xl overflow-hidden relative bg-zinc-900">
+                        {article.video ? (
+                          <video 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            poster={article.image}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
+                          >
+                            <source src={article.video} type="video/mp4" />
+                          </video>
+                        ) : (
+                          <img 
+                            src={article.image} 
+                            alt={article.title} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
+                          />
+                        )}
+                        <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase">
+                          {article.category}
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-3 text-[9px] font-mono text-zinc-500">
-                        <span className="text-accent uppercase font-bold tracking-wider">{article.category}</span>
+                        <span>{article.date}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1"><Clock size={10} /> {article.readTime} MIN READ</span>
                       </div>
@@ -442,14 +450,28 @@ export default function Insights() {
                   </h1>
                 </div>
 
-                {/* UNCROPPED HERO IMAGE CONTAINER WITH LIGHTBOX CLICK */}
-                <div className="relative group w-full max-h-[50vh] sm:max-h-[480px] rounded-2xl overflow-hidden border border-white/10 bg-black/90 flex items-center justify-center my-6 shadow-2xl">
-                  <img 
-                    src={readingArticle.image} 
-                    alt={readingArticle.title} 
-                    className="max-w-full max-h-[48vh] sm:max-h-[460px] w-auto h-auto object-contain cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
-                    onClick={() => setLightboxImage(readingArticle.image)}
-                  />
+                {/* HERO SHOWCASE VIDEO / IMAGE DISPLAY */}
+                <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border border-white/10 bg-black/90 flex items-center justify-center my-6 shadow-2xl">
+                  {readingArticle.video ? (
+                    <video 
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                      poster={readingArticle.image}
+                      className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]"
+                      onClick={() => setLightboxImage(readingArticle.image)}
+                    >
+                      <source src={readingArticle.video} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img 
+                      src={readingArticle.image} 
+                      alt={readingArticle.title} 
+                      className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
+                      onClick={() => setLightboxImage(readingArticle.image)}
+                    />
+                  )}
                   <button
                     onClick={() => setLightboxImage(readingArticle.image)}
                     className="absolute bottom-4 right-4 px-4 py-2 rounded-full bg-black/80 border border-white/20 text-white font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-md"
@@ -463,22 +485,22 @@ export default function Insights() {
                   {readingArticle.body || readingArticle.summary}
                 </div>
 
-                {/* ARTICLE GALLERY STRIP */}
+                {/* GALLERY STRIP INSIDE ESSAY */}
                 {readingArticle.gallery && readingArticle.gallery.length > 0 && (
                   <div className="space-y-4 pt-8 border-t border-white/10">
                     <div className="flex items-center gap-2 font-mono text-[10px] text-accent uppercase tracking-widest font-bold">
-                      <Layers size={12} /> Spatial Photographic Gallery (Tap to Expand)
+                      <Layers size={12} /> Editorial Photographic Gallery
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                       {readingArticle.gallery.map((imgSrc, idx) => (
                         <div 
-                          key={idx} 
+                          key={idx}
                           onClick={() => setLightboxImage(imgSrc)}
                           className="group aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-black cursor-pointer relative"
                         >
                           <img src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <Maximize2 size={16} className="text-accent" />
+                            <Maximize2 size={14} className="text-accent" />
                           </div>
                         </div>
                       ))}
@@ -490,7 +512,7 @@ export default function Insights() {
           )}
         </AnimatePresence>
 
-        {/* FULLSCREEN LIGHTBOX MODAL FOR UNCROPPED PICTURE INSPECTION */}
+        {/* LIGHTBOX MODAL FOR UNCROPPED IMAGE PREVIEW */}
         <AnimatePresence>
           {lightboxImage && (
             <motion.div
@@ -510,7 +532,7 @@ export default function Insights() {
               <div className="relative max-w-7xl max-h-[90vh] flex items-center justify-center overflow-hidden" onClick={(e) => e.stopPropagation()}>
                 <img
                   src={lightboxImage}
-                  alt="Full Picture View"
+                  alt="Full Resolution View"
                   className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
                 />
               </div>

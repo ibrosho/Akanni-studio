@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Shield, Layers } from 'lucide-react';
 import PageTransition from './PageTransition';
+import SpatialCanvas from './SpatialCanvas';
 
 export default function About() {
   const containerVariants = {
@@ -133,6 +134,11 @@ export default function About() {
               <div className="text-[10px] text-gray-500 font-light leading-snug">{metric.sub}</div>
             </div>
           ))}
+        </motion.div>
+
+        {/* 3D SPATIAL CAD MESH CANVAS ENGINE */}
+        <motion.div variants={itemVariants}>
+          <SpatialCanvas />
         </motion.div>
 
         {/* SECTION 03: STUDIO CORE VALUATION PILLARS */}

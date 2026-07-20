@@ -1,7 +1,6 @@
-
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowUpRight, Compass, Cpu, Terminal } from 'lucide-react';
+import { ArrowUpRight, Compass, Cpu, Terminal, Play } from 'lucide-react';
 import PageTransition from './PageTransition';
 import MagneticButton from './MagneticButton';
 
@@ -50,7 +49,23 @@ export default function Studio() {
   };
 
   return (
-    <PageTransition className="pt-32 px-6 max-w-5xl mx-auto">
+    <PageTransition className="pt-32 px-6 max-w-5xl mx-auto relative">
+      
+      {/* Background Video Loop with Ambient Overlay */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 opacity-20">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          poster="/atelier.avif"
+          className="w-full h-full object-cover scale-105"
+        >
+          <source src="/studio_loop.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+      </div>
+
       <section id="studio" className="pb-24 relative z-20 w-full min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           
@@ -88,7 +103,7 @@ export default function Studio() {
                 </button>
               </MagneticButton>
             </div>
-            </div>
+          </div>
 
           {/* Dynamic Interactive Steps Column */}
           <motion.div 
@@ -103,37 +118,21 @@ export default function Studio() {
                 variants={itemVariants}
                 className="p-8 rounded-2xl bg-[#06060b]/30 border border-white/[0.04] hover:border-white/[0.09] shadow-2xl backdrop-blur-md transition-all duration-300 group relative overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                <div className="flex flex-col md:flex-row md:items-start gap-6 relative z-10">
-                  
-                  {/* Structural Identifier Matrix */}
-                  <div className="flex items-center md:flex-col gap-4 md:gap-3">
-                    <span className="text-xs font-mono font-bold text-gray-600 bg-white/[0.02] border border-white/5 w-8 h-8 rounded-lg flex items-center justify-center">
-                      {step.num}
-                    </span>
-                    <div className="w-[1px] h-4 md:h-8 bg-gradient-to-b from-white/10 to-transparent hidden md:block" />
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono text-cyan-400/60 font-semibold">{step.num}</span>
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.02] border border-white/5 text-[9px] font-mono text-zinc-400">
+                    {step.icon}
+                    <span>{step.tag}</span>
                   </div>
-
-                  {/* Core Narrative Information Layout */}
-                  <div className="space-y-3 flex-1">
-                    <div className="flex items-center gap-2">
-                      {step.icon}
-                      <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-gray-500 font-bold">
-                        {step.tag}
-                      </span>
-                    </div>
-                    
-                    <h3 className="text-xl font-bold text-gray-200 group-hover:text-white transition-colors duration-300">
-                      {step.title}
-                    </h3>
-                    
-                    <p className="text-xs md:text-sm font-light text-gray-400 leading-relaxed max-w-xl antialiased">
-                      {step.desc}
-                    </p>
-                  </div>
-
                 </div>
+
+                <h3 className="text-xl font-bold uppercase tracking-tight text-white mb-3 group-hover:text-cyan-400 transition-colors">
+                  {step.title}
+                </h3>
+
+                <p className="text-zinc-400 text-xs font-light leading-relaxed">
+                  {step.desc}
+                </p>
               </motion.div>
             ))}
           </motion.div>

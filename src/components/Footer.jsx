@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronUp } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import SoundscapeToggle from './SoundscapeToggle';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -108,7 +109,8 @@ export default function Footer() {
           <span>© {currentYear} Akanni Studios. All rights reserved.</span>
         </div>
         <div className="flex items-center gap-6">
-          <span className="text-[8px] opacity-60">
+          <SoundscapeToggle />
+          <span className="text-[8px] opacity-60 hidden sm:inline">
             Scale: Zero Carbon System Framework
           </span>
           <MagneticButton onClick={handleBackToTop}>

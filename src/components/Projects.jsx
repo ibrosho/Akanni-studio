@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers } from 'lucide-react';
+import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers, Download, Play, Pause, FileText } from 'lucide-react';
 import TiltCard from './TiltCard';
 import PageTransition from './PageTransition';
 import { SectionReveal } from './Reveal';
 
-// Editorial Case Study Database — Expanded to 8 Projects
+// Editorial Case Study Database — 8 Projects with 18 Unique Photo & Video Assets
 const PROJECT_DATABASE = [
   {
     id: "canopy",
@@ -15,8 +15,9 @@ const PROJECT_DATABASE = [
     year: "2026",
     role: "Lead Computational Architect",
     summary: "An open-air civic pavilion utilizing self-shading parametric timber arches and integrated water filtration micro-climates to revive urban public space.",
-    heroImage: "rol.avif",
-    gallery: ["rol.avif", "pal.avif", "sky.avif"],
+    heroImage: "/canopy.avif",
+    heroVideo: "/pavilion_loop.mp4",
+    gallery: ["/canopy.avif", "/courtyard.jpg", "/timber_roo.avif", "/water_reflect.avif"],
     challenge: "The urban heat island effect in dense tropical areas limits outdoor civic life. The project required a zero-carbon, self-cooling public shelter that harvested rainwater while keeping structural weight minimal.",
     process: "Using computational design and dynamic structural analysis, we engineered self-shading parametric timber arches. The curves are mathematically optimized to block midday solar radiation while funneling wind into micro-filtration misting systems fed by harvested rainwater.",
     outcome: "A stunning structural landmark that reduces ambient temperature by up to 6°C natively without mechanical air conditioning, creating a vibrant, cool community hub in the heart of Lagos.",
@@ -34,8 +35,9 @@ const PROJECT_DATABASE = [
     year: "2025",
     role: "Architectural & Interior Brand Designer",
     summary: "A minimalist coastal residence carved from low-carbon volcanic concrete, featuring massive structural cantilevered spans framing the Atlantic skyline.",
-    heroImage: "pal.avif",
-    gallery: ["pal.avif", "rol.avif"],
+    heroImage: "/monolith.avif",
+    heroVideo: "/aka.mp4",
+    gallery: ["/monolith.avif", "/interior_lounge.jpg", "/light_shadow.jpg", "/cliffside.avif"],
     challenge: "To design a home that feels structurally impossible yet completely grounded in its coastal environment, resisting heavy Atlantic salt air erosion while maintaining a pure, brutalist minimalist aesthetic.",
     process: "We utilized custom-mixed volcanic concrete with high-durability, low-carbon additives. The structural core relies on a deep-set subterranean counterweight, allowing for a massive, gravity-defying cantilevered upper story with zero visible vertical pillars.",
     outcome: "An award-winning residential landmark featuring raw, poetic geometry. Seamless floor-to-ceiling glass transitions frame the ocean view, embodying absolute luxury and architectural restraint.",
@@ -53,8 +55,9 @@ const PROJECT_DATABASE = [
     year: "2026",
     role: "Facade Systems Specialist",
     summary: "A 45-story commercial skyscraper wrapped in a dynamic, kinetic solar-tracking envelope engineered to optimize internal thermal dynamics.",
-    heroImage: "sky.avif",
-    gallery: ["sky.avif", "rol.avif"],
+    heroImage: "/skyscraper.avif",
+    heroVideo: "/skyline_loop.mp4",
+    gallery: ["/skyscraper.avif", "/facade_detail.avif", "/urban_masterplan.jpg", "/photovoltaic.avif"],
     challenge: "Traditional glass skyscrapers suffer from immense heat gain, resulting in massive HVAC electricity costs. The brief called for a sustainable high-rise that visually reacts to environmental shifts.",
     process: "We developed a parametric, kinetic facade system. Hundreds of automated, lightweight solar fins open and close dynamically based on real-time solar tracking, deflecting direct heat while maintaining ambient daylight.",
     outcome: "An architectural marvel that slashed high-rise cooling costs by 40% while establishing a fluid, shimmering identity along the skyline of Eko Atlantic City.",
@@ -72,8 +75,9 @@ const PROJECT_DATABASE = [
     year: "2026",
     role: "Principal Computational Architect",
     summary: "A next-generation research hub exploring parametric timber shell structures and multi-agent spatial generation algorithms.",
-    heroImage: "/in1.avif",
-    gallery: ["/in1.avif", "pal.avif"],
+    heroImage: "/atelier.avif",
+    heroVideo: "/studio_loop.mp4",
+    gallery: ["/atelier.avif", "/staircase.avif", "/glass_pavilion.avif", "/courtyard.jpg"],
     challenge: "Developing a fluid spatial layout capable of housing heavy digital fabrication robotics alongside quiet collaborative design suites.",
     process: "Using generative spatial packing algorithms, we sculpted acoustic zoning buffers natively into the concrete structure without solid partition walls.",
     outcome: "A dynamic, high-tech atelier fostering cross-disciplinary computational research in a sunlit biophilic sanctuary.",
@@ -91,8 +95,9 @@ const PROJECT_DATABASE = [
     year: "2025",
     role: "Lead Design Strategist",
     summary: "A secluded oceanfront residence integrated directly into volcanic cliff rock formations.",
-    heroImage: "/in3.avif",
-    gallery: ["/in3.avif", "/in1.avif"],
+    heroImage: "/cliffside.avif",
+    heroVideo: "/drv.mp4",
+    gallery: ["/cliffside.avif", "/water_reflect.avif", "/interior_lounge.jpg", "/monolith.avif"],
     challenge: "Protecting living areas from extreme coastal winds while preserving uninhibited 270-degree ocean views.",
     process: "We carved structural subterranean courtyards that act as wind shields while using triple-laminated acoustic glass panels.",
     outcome: "A serene coastal sanctuary blending brutalist concrete forms with lush native greenery.",
@@ -110,8 +115,9 @@ const PROJECT_DATABASE = [
     year: "2026",
     role: "Parametric Facade Engineer",
     summary: "A dynamic 30-story commercial tower wrapped in photovoltaic kinetic glass panels.",
-    heroImage: "rol.avif",
-    gallery: ["rol.avif", "sky.avif"],
+    heroImage: "/photovoltaic.avif",
+    heroVideo: "/yug.mp4",
+    gallery: ["/photovoltaic.avif", "/facade_detail.avif", "/urban_masterplan.jpg", "/skyscraper.avif"],
     challenge: "Generating clean solar energy on-site while avoiding internal glare for office workers.",
     process: "Engineered semi-transparent solar glass panels that tilt dynamically with sun position.",
     outcome: "Generates 25% of its own annual electrical demand natively from solar facade harvesting.",
@@ -129,8 +135,9 @@ const PROJECT_DATABASE = [
     year: "2026",
     role: "Masterplan Consultant",
     summary: "A sweeping civic museum celebrating West African architectural heritage and computational art.",
-    heroImage: "/in2.avif",
-    gallery: ["/in2.avif", "pal.avif"],
+    heroImage: "/museum.avif",
+    heroVideo: "/yum.mp4",
+    gallery: ["/museum.avif", "/bridge.jpg", "/staircase.avif", "/sunshaft.avif"],
     challenge: "Creating a massive column-free exhibition hall spanning over 60 meters.",
     process: "Utilized post-tensioned hyperbolic paraboloid concrete roof shells.",
     outcome: "An iconic cultural landmark receiving international acclaim for structural elegance.",
@@ -148,8 +155,9 @@ const PROJECT_DATABASE = [
     year: "2025",
     role: "Environmental Systems Lead",
     summary: "A self-sustaining public educational center powered completely by solar timber pergolas.",
-    heroImage: "sky.avif",
-    gallery: ["sky.avif", "rol.avif"],
+    heroImage: "/sunshaft.avif",
+    heroVideo: "/aka2.mp4",
+    gallery: ["/sunshaft.avif", "/glass_pavilion.avif", "/timber_roo.avif", "/courtyard.jpg"],
     challenge: "Designing a public pavilion that operates off-grid in extreme tropical humidity.",
     process: "Integrated desiccant dehumidification systems driven by solar thermal heat pipes.",
     outcome: "An educational beacon teaching sustainable urbanism to thousands of visitors monthly.",
@@ -169,6 +177,7 @@ export default function Projects() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("ALL");
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const modalRef = useRef(null);
 
   // Lock background Lenis smooth scroll & auto scroll modal to top
@@ -201,6 +210,44 @@ export default function Projects() {
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery]);
+
+  // Architectural Spec Sheet PDF Downloader
+  const handleDownloadSpec = (project) => {
+    const specContent = `
+AKANNI STUDIOS — ARCHITECTURAL SPECIFICATION SHEET
+==================================================
+Project Name: ${project.title}
+Category: ${project.category}
+Client: ${project.client}
+Year: ${project.year}
+Role: ${project.role}
+Location: Lagos, Nigeria
+
+EXECUTIVE SUMMARY:
+${project.summary}
+
+THE CHALLENGE:
+${project.challenge}
+
+COMPUTATIONAL & MATERIAL PROCESS:
+${project.process}
+
+STRUCTURAL METRICS:
+${project.metrics.map(m => `- ${m.label}: ${m.value}`).join('\n')}
+
+OUTCOME:
+${project.outcome}
+
+(c) 2026 Akanni Studios. All Rights Reserved.
+    `;
+    const blob = new Blob([specContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${project.id}_architectural_spec_sheet.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <PageTransition className="pt-32 px-6 max-w-5xl mx-auto">
@@ -245,7 +292,7 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Grid Layout (Parametric/Masonry Staggered Aesthetic) */}
+        {/* Grid Layout (Parametric Masonry Staggered Aesthetic) */}
         {filteredProjects.length === 0 ? (
           <div className="py-20 text-center text-zinc-500 font-mono text-xs uppercase tracking-widest border border-dashed border-white/10 rounded-3xl">
             No architectural projects matched your query.
@@ -253,7 +300,6 @@ export default function Projects() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
             {filteredProjects.map((project, idx) => {
-              // Asynchronous Architectural grid layout rules:
               const pattern = idx % 5;
               const colSpan = pattern === 0 ? "md:col-span-7" : pattern === 1 ? "md:col-span-5" : pattern === 2 ? "md:col-span-12" : pattern === 3 ? "md:col-span-6" : "md:col-span-6";
               const aspectClass = pattern === 0 ? "aspect-[4/3]" : pattern === 1 ? "aspect-[4/5] h-full" : pattern === 2 ? "aspect-[16/7] md:aspect-[21/9]" : "aspect-[16/10]";
@@ -263,13 +309,26 @@ export default function Projects() {
                   <div onClick={() => setActiveProject(project)} className="group cursor-pointer">
                     <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
                       
-                      {/* Zooming background image on hover */}
+                      {/* Video or Image Background Loop */}
                       <div className="absolute inset-0 w-full h-full overflow-hidden">
-                        <img 
-                          src={project.heroImage} 
-                          alt={project.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85" 
-                        />
+                        {project.heroVideo ? (
+                          <video 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            poster={project.heroImage}
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
+                          >
+                            <source src={project.heroVideo} type="video/mp4" />
+                          </video>
+                        ) : (
+                          <img 
+                            src={project.heroImage} 
+                            alt={project.title} 
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85" 
+                          />
+                        )}
                       </div>
 
                       {/* Ambient overlay vignette */}
@@ -309,8 +368,14 @@ export default function Projects() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[9999] bg-luxury-black overflow-y-auto px-4 pt-16 pb-20 sm:p-12 lg:p-20 scrollbar-none"
             >
-              {/* Modal Exit Control */}
-              <div className="fixed top-8 right-8 z-50">
+              {/* Modal Exit & Spec Download Controls */}
+              <div className="fixed top-8 right-8 z-50 flex items-center gap-3">
+                <button
+                  onClick={() => handleDownloadSpec(activeProject)}
+                  className="px-4 py-2.5 rounded-full border border-accent/30 bg-black/80 backdrop-blur-md text-accent hover:bg-accent hover:text-black font-mono text-[9px] uppercase tracking-widest flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(0,245,212,0.2)]"
+                >
+                  <Download size={12} /> Spec Sheet PDF
+                </button>
                 <button 
                   onClick={() => setActiveProject(null)}
                   className="w-12 h-12 rounded-full border border-luxury-border bg-luxury-black/80 backdrop-blur-md flex items-center justify-center text-neutral-muted hover:text-neutral-warm hover:border-accent transition-all cursor-pointer"
@@ -321,7 +386,7 @@ export default function Projects() {
 
               <div className="max-w-5xl mx-auto space-y-16">
                 
-                {/* 1. HERO HERO SECTION */}
+                {/* 1. HERO SECTION */}
                 <div className="space-y-6 text-left">
                   <span className="inline-block text-[10px] font-mono uppercase tracking-[0.35em] text-accent bg-accent/5 px-4 py-1.5 rounded-full border border-accent/20">{activeProject.category}</span>
                   <h1 className="text-4xl sm:text-7xl font-black uppercase tracking-tight leading-none text-white">{activeProject.title}</h1>
@@ -348,10 +413,10 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* 3. HERO IMAGE DISPLAY (UNCROPPED & FULL VIEWABLE) */}
+                {/* 3. HERO SHOWCASE VIDEO LOOP / RENDER DISPLAY */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-luxury-border">
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-muted">Visualization Engine</span>
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-muted">Visualization & Cinematic Engine</span>
                     <button
                       onClick={() => setBlueprintMode(!blueprintMode)}
                       className={`px-4 py-1.5 rounded-full border text-[9px] font-mono uppercase tracking-widest transition-all duration-300 cursor-pointer ${
@@ -364,15 +429,31 @@ export default function Projects() {
                     </button>
                   </div>
 
-                  <div className="relative group w-full max-h-[50vh] sm:max-h-[500px] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center">
-                    <img 
-                      src={activeProject.heroImage} 
-                      alt="Main Showcase Render" 
-                      onClick={() => setLightboxImage(activeProject.heroImage)}
-                      className={`max-w-full max-h-[48vh] sm:max-h-[480px] w-auto h-auto object-contain cursor-pointer transition-all duration-500 ${
-                        blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
-                      }`} 
-                    />
+                  <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center shadow-2xl">
+                    {activeProject.heroVideo ? (
+                      <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        poster={activeProject.heroImage}
+                        className={`w-full h-full object-cover cursor-pointer transition-all duration-500 ${
+                          blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
+                        }`} 
+                        onClick={() => setLightboxImage(activeProject.heroImage)}
+                      >
+                        <source src={activeProject.heroVideo} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img 
+                        src={activeProject.heroImage} 
+                        alt="Main Showcase Render" 
+                        onClick={() => setLightboxImage(activeProject.heroImage)}
+                        className={`w-full h-full object-cover cursor-pointer transition-all duration-500 ${
+                          blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
+                        }`} 
+                      />
+                    )}
 
                     <button
                       onClick={() => setLightboxImage(activeProject.heroImage)}
@@ -434,7 +515,7 @@ export default function Projects() {
                     <div className="flex items-center gap-2 font-mono text-[10px] text-accent uppercase tracking-widest font-bold">
                       <Layers size={12} /> Case Study Visual Assets (Tap to Expand)
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {activeProject.gallery.map((imgSrc, idx) => (
                         <div 
                           key={idx} 
