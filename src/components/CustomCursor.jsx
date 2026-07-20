@@ -121,7 +121,7 @@ export default function CustomCursor() {
           translateY: '-50%',
           pointerEvents: 'none',
           borderRadius: '50%',
-          zIndex: 9999,
+          zIndex: 999999,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -157,7 +157,7 @@ export default function CustomCursor() {
           backgroundColor: '#22d3ee', // Glowing cyan core
           borderRadius: '50%',
           pointerEvents: 'none',
-          zIndex: 10000,
+          zIndex: 999999,
         }}
       />
     </>

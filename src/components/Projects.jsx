@@ -198,6 +198,18 @@ export default function Projects() {
     };
   }, [activeProject, lightboxImage]);
 
+  // Escape key listener to close active modals
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxImage) setLightboxImage(null);
+        else if (activeProject) setActiveProject(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImage, activeProject]);
+
   // Filter Logic
   const filteredProjects = useMemo(() => {
     return PROJECT_DATABASE.filter((proj) => {

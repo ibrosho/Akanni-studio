@@ -156,6 +156,18 @@ export default function Insights() {
     };
   }, [readingArticle, lightboxImage]);
 
+  // Escape key listener to close active modals
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (lightboxImage) setLightboxImage(null);
+        else if (readingArticle) setReadingArticle(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImage, readingArticle]);
+
   // Bookmarks persistence
   const [bookmarks, setBookmarks] = useState(() => {
     const saved = localStorage.getItem('arc_bookmarks');
