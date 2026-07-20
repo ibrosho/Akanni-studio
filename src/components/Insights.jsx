@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers } from 'lucide-react';
 import { useAuth } from './AuthContext';
@@ -33,12 +33,6 @@ Key Structural Innovations:
     date: "JUNE 2026",
     readTime: 4,
     summary: "Breaking down the mathematical balance behind designing vector monograms that scale flawlessly from digital viewports down to custom laser-cut textures.",
-    body: `A logo for an architectural firm must communicate spatial integrity in two dimensions. Monograms built on strict grid ratios—such as the golden ratio or isometric 30-degree angles—retain geometric legibility whether displayed on a 4K viewport or engraved into raw brass door hardware.
-
-Vector Math & Grid Alignment:
-- Root-2 Rectangle proportions ensure harmonious visual hierarchy across letterheads and signage.
-- 0.5px line weight adjustments compensate for physical laser-ablation burn bleeding during print production.`,
-    featured: false,
     image: "/in2.avif",
     gallery: ["/in2.avif", "in3.avif"]
   },

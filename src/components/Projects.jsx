@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers } from 'lucide-react';
 import TiltCard from './TiltCard';
@@ -169,6 +169,21 @@ export default function Projects() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("ALL");
+
+  // Lock background Lenis smooth scroll when modal is active
+  useEffect(() => {
+    if (activeProject || lightboxImage) {
+      window.__lenis?.stop();
+      document.body.style.overflow = 'hidden';
+    } else {
+      window.__lenis?.start();
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.__lenis?.start();
+      document.body.style.overflow = '';
+    };
+  }, [activeProject, lightboxImage]);
 
   // Filter Logic
   const filteredProjects = useMemo(() => {

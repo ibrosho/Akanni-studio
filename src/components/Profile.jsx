@@ -498,14 +498,23 @@ export default function Profile() {
                     </div>
 
                     {/* Submit */}
-                    <div className="flex justify-end pt-4">
+                    <div className="flex items-center justify-between pt-4">
+                      {selectedFile && (
+                        <p className="text-[10px] font-mono text-accent animate-pulse uppercase tracking-wider font-bold">
+                          ★ Image selected! Click "Save Changes" to save to MongoDB.
+                        </p>
+                      )}
                       <button
                         type="submit"
                         disabled={isUpdatingProfile}
-                        className="inline-flex items-center gap-2.5 px-6 h-12 bg-accent hover:bg-accent-hover text-black font-bold text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(0,245,212,0.15)] hover:shadow-[0_0_20px_rgba(0,245,212,0.3)] active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                        className={`inline-flex items-center gap-2.5 px-8 h-12 text-black font-bold text-[10px] font-mono uppercase tracking-[0.2em] rounded-full transition-all duration-300 active:scale-[0.98] disabled:opacity-50 cursor-pointer ${
+                          selectedFile
+                            ? "bg-accent shadow-[0_0_30px_rgba(0,245,212,0.6)] animate-pulse ring-2 ring-white"
+                            : "bg-accent hover:bg-accent-hover shadow-[0_4px_15px_rgba(0,245,212,0.15)] hover:shadow-[0_0_20px_rgba(0,245,212,0.3)]"
+                        }`}
                       >
                         <Save size={12} />
-                        {isUpdatingProfile ? "Syncing..." : "Save Changes"}
+                        {isUpdatingProfile ? "Syncing..." : selectedFile ? "Save Photo Now" : "Save Changes"}
                       </button>
                     </div>
                   </form>
