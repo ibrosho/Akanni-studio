@@ -87,6 +87,8 @@ export default function Navbar() {
 
   const firstLetter = user?.email ? user.email.charAt(0).toUpperCase() : '';
 
+  const [imgError, setImgError] = useState(false);
+
   return (
     <motion.div 
       initial={{ y: -100 }}
@@ -140,8 +142,13 @@ export default function Navbar() {
             className="avatar-trigger w-8 h-8 rounded-full border border-accent/40 hover:border-accent hover:shadow-[0_0_12px_rgba(0,245,212,0.3)] overflow-hidden cursor-pointer transition-all duration-300 flex items-center justify-center bg-white/[0.03]"
             aria-label="Toggle Profile Dropdown"
           >
-            {user?.profilePhoto ? (
-              <img src={getPhotoUrl(user.profilePhoto)} className="w-full h-full object-cover" alt="User Avatar" />
+            {user?.profilePhoto && !imgError ? (
+              <img 
+                src={getPhotoUrl(user.profilePhoto)} 
+                className="w-full h-full object-cover" 
+                alt="User Avatar" 
+                onError={() => setImgError(true)}
+              />
             ) : (
               <span className="text-[10px] font-bold text-accent font-mono">{firstLetter}</span>
             )}
@@ -161,8 +168,13 @@ export default function Navbar() {
                 {/* User Card */}
                 <div className="flex items-center gap-3 pb-3 border-b border-white/5 mb-3">
                   <div className="w-9 h-9 rounded-full border border-white/10 overflow-hidden flex items-center justify-center bg-white/[0.02]">
-                    {user?.profilePhoto ? (
-                      <img src={getPhotoUrl(user.profilePhoto)} className="w-full h-full object-cover" alt="Profile" />
+                    {user?.profilePhoto && !imgError ? (
+                      <img 
+                        src={getPhotoUrl(user.profilePhoto)} 
+                        className="w-full h-full object-cover" 
+                        alt="Profile" 
+                        onError={() => setImgError(true)}
+                      />
                     ) : (
                       <span className="text-xs font-bold text-accent font-mono">{firstLetter}</span>
                     )}

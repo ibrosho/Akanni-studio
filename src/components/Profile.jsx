@@ -21,6 +21,7 @@ export default function Profile() {
   const [name, setName] = useState(() => user?.name || "");
   const [bio, setBio] = useState(() => user?.bio || "");
   const [profilePhoto, setProfilePhoto] = useState(() => user?.profilePhoto || "");
+  const [profileImgError, setProfileImgError] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
@@ -339,9 +340,14 @@ export default function Profile() {
                     {/* Avatar Upload Grid */}
                     <div className="flex flex-col md:flex-row gap-6 items-center">
                       <div className="relative group w-28 h-28 rounded-full border border-accent/20 bg-black/40 overflow-hidden flex items-center justify-center flex-shrink-0">
-                        {profilePhoto ? (
+                        {profilePhoto && !profileImgError ? (
                           <>
-                            <img src={getPhotoUrl(profilePhoto)} className="w-full h-full object-cover" alt="Avatar Preview" />
+                            <img 
+                              src={getPhotoUrl(profilePhoto)} 
+                              className="w-full h-full object-cover" 
+                              alt="Avatar Preview" 
+                              onError={() => setProfileImgError(true)}
+                            />
                             <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                               <Camera size={20} className="text-accent animate-pulse" />
                             </div>
