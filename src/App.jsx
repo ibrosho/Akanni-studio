@@ -174,14 +174,21 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
       onMouseLeave={handleMouseLeave}
       className="relative w-full min-h-screen lg:h-screen flex items-center overflow-y-auto lg:overflow-hidden bg-luxury-black py-32 lg:py-0"
     >
-      {/* Background Video Layer */}
+      {/* Background Video + Image Fallback Layer */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        {/* Fallback Hero Photo */}
+        <img 
+          src={activeProject.heroImage || "/canopy.avif"} 
+          alt="Hero Background Fallback" 
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-35 pointer-events-none"
+        />
+
         <AnimatePresence initial={false} mode="popLayout">
           <motion.video
             key={currentIndex}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ 
-              opacity: 0.22, 
+              opacity: 0.55, 
               scale: 1
             }}
             style={{
@@ -194,6 +201,7 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
             loop
             muted
             playsInline
+            poster={activeProject.heroImage || "/canopy.avif"}
             className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
           >
             <source src={backgroundVideos[currentIndex]} type="video/mp4" />

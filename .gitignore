@@ -23,8 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large media files — host on Cloudinary instead
-*.mp4
-*.mov
-*.avi
-*.webm
+# Large media files rule removed so local video loops deploy
