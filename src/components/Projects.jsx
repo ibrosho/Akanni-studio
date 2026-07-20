@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers, Download, Play, Pause, FileText } from 'lucide-react';
 import TiltCard from './TiltCard';
 import PageTransition from './PageTransition';
-import { SectionReveal } from './Reveal';
+import { getMediaUrl } from '../config/media';
 
 // Editorial Case Study Database — 8 Projects with 18 Unique Photo & Video Assets
-const PROJECT_DATABASE = [
+const RAW_PROJECT_DATABASE = [
   {
     id: "canopy",
     title: "The Canopy Pavilion",
@@ -168,6 +168,11 @@ const PROJECT_DATABASE = [
     ]
   }
 ];
+
+const PROJECT_DATABASE = RAW_PROJECT_DATABASE.map((proj) => ({
+  ...proj,
+  heroVideo: getMediaUrl(proj.heroVideo)
+}));
 
 const CATEGORIES = ["ALL", "Biophilic Urbanism", "Residential Architecture", "Commercial High-Rise", "Computational Design", "Cultural & Civic"];
 

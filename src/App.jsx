@@ -19,6 +19,7 @@ import Preloader from './components/Preloader';
 import ScrollProgress from './components/ScrollProgress';
 import BlueprintGrid from './components/BlueprintGrid';
 import ErrorBoundary from './components/ErrorBoundary';
+import { getMediaUrl } from './config/media';
 
 // Lazy Loaded Page Components
 const Studio = lazy(() => import('./components/Studio'));
@@ -350,7 +351,7 @@ function AppContent() {
     "/yug.mp4",
     "/yum.mp4",
     "/aka2.mp4"
-  ];
+  ].map(getMediaUrl);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const location = useLocation();

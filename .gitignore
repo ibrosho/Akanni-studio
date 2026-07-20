@@ -23,4 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large media files rule removed so local video loops deploy
+# Environment variables
+.env
+.env*.local
+
+# Heavy media files (hosted on Cloudinary)
+*.mp4
+

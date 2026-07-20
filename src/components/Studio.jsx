@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Compass, Cpu, Terminal, Play } from 'lucide-react';
 import PageTransition from './PageTransition';
 import MagneticButton from './MagneticButton';
+import { getMediaUrl } from '../config/media';
 
 export default function Studio() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export default function Studio() {
           poster="/atelier.avif"
           className="w-full h-full object-cover scale-105"
         >
-          <source src="/studio_loop.mp4" type="video/mp4" />
+          <source src={getMediaUrl("/studio_loop.mp4")} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
       </div>

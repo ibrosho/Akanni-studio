@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers, Download } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import PageTransition from './PageTransition';
-import { SectionReveal } from './Reveal';
+import { getMediaUrl } from '../config/media';
 
 // Expanded Architectural Insights Database — 8 Essays with 18 Unique Photo Assets
-const INSIGHTS_ARTICLES = [
+const RAW_INSIGHTS_ARTICLES = [
   {
     id: 1,
     title: "The Poetry of Raw Concrete: Brutalism in Modern Coastal Architecture",
@@ -127,6 +127,11 @@ By wrapping skyscrapers in automated photovoltaic kinetic shards, building envel
 ];
 
 const CATEGORIES = ["ALL", "Spatial Design", "Branding", "Architecture", "Production"];
+
+const INSIGHTS_ARTICLES = RAW_INSIGHTS_ARTICLES.map((article) => ({
+  ...article,
+  video: article.video ? getMediaUrl(article.video) : null
+}));
 
 export default function Insights() {
   const { showToast } = useAuth();
