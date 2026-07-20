@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers } from 'lucide-react';
 import { useAuth } from './AuthContext';
@@ -391,6 +391,7 @@ export default function Insights() {
           {readingArticle && (
             <motion.div
               ref={modalRef}
+              data-lenis-prevent="true"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
