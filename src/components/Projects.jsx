@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, Compass, ShieldAlert, Cpu, Search, Maximize2, Layers } from 'lucide-react';
 import TiltCard from './TiltCard';
@@ -169,12 +169,16 @@ export default function Projects() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("ALL");
+  const modalRef = useRef(null);
 
-  // Lock background Lenis smooth scroll when modal is active
+  // Lock background Lenis smooth scroll & auto scroll modal to top
   useEffect(() => {
     if (activeProject || lightboxImage) {
       window.__lenis?.stop();
       document.body.style.overflow = 'hidden';
+      if (activeProject && modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
     } else {
       window.__lenis?.start();
       document.body.style.overflow = '';
@@ -298,10 +302,11 @@ export default function Projects() {
         <AnimatePresence>
           {activeProject && (
             <motion.div 
+              ref={modalRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[9999] bg-luxury-black overflow-y-auto px-4 py-8 md:p-12 lg:p-20 scrollbar-none"
+              className="fixed inset-0 z-[9999] bg-luxury-black overflow-y-auto px-4 pt-16 pb-20 sm:p-12 lg:p-20 scrollbar-none"
             >
               {/* Modal Exit Control */}
               <div className="fixed top-8 right-8 z-50">

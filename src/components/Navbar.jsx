@@ -259,25 +259,66 @@ export default function Navbar() {
                 </Link>
               ))}
               
-              <div className="h-[1px] bg-white/5 my-2" />
+              <div className="h-[1px] bg-white/5 my-1" />
 
+              {/* Mobile User Profile Card */}
+              {user ? (
+                <div className="space-y-2">
+                  <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="w-10 h-10 rounded-full border border-accent/40 overflow-hidden flex items-center justify-center bg-black flex-shrink-0">
+                        {user?.profilePhoto && !imgError ? (
+                          <img 
+                            src={getPhotoUrl(user.profilePhoto)} 
+                            className="w-full h-full object-cover" 
+                            alt="Mobile Avatar" 
+                            onError={() => setImgError(true)}
+                          />
+                        ) : (
+                          <span className="text-xs font-bold text-accent font-mono">{firstLetter}</span>
+                        )}
+                      </div>
+                      <div className="overflow-hidden text-left">
+                        <p className="text-[10px] font-bold text-white uppercase tracking-wider truncate">{user.name || 'Akanni Client'}</p>
+                        <p className="text-[8px] text-zinc-500 font-mono truncate">{user.email}</p>
+                      </div>
+                    </div>
 
+                    <Link 
+                      to="/profile" 
+                      onClick={() => setIsOpen(false)}
+                      className="px-3 py-1.5 rounded-full bg-accent/15 border border-accent/30 text-accent hover:bg-accent hover:text-black text-[9px] font-bold tracking-wider transition-all flex-shrink-0"
+                    >
+                      Dashboard
+                    </Link>
+                  </div>
 
-              <Link 
-                to="/profile" 
-                onClick={() => setIsOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.04] transition-colors flex justify-between items-center"
-              >
-                Profile Settings
-                <User size={12} className="text-accent" />
-              </Link>
-              
-              <button 
-                onClick={handleLogout} 
-                className="w-full mt-2 py-2.5 bg-red-500/10 border border-red-500/20 text-red-400 font-bold rounded-xl hover:bg-red-500/20 hover:text-white transition-colors"
-              >
-                Logout
-              </button>
+                  <div className="grid grid-cols-2 gap-2 font-mono text-[9px] uppercase tracking-wider">
+                    <Link 
+                      to="/profile" 
+                      onClick={() => setIsOpen(false)}
+                      className="px-3 py-2 rounded-xl bg-white/[0.02] border border-white/5 text-zinc-300 hover:text-white text-center flex items-center justify-center gap-1.5"
+                    >
+                      <User size={10} className="text-accent" /> Edit Profile
+                    </Link>
+
+                    <button 
+                      onClick={handleLogout} 
+                      className="px-3 py-2 bg-red-500/10 border border-red-500/20 text-red-400 font-bold rounded-xl hover:bg-red-500/20 hover:text-white transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <LogOut size={10} /> Logout
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <Link 
+                  to="/login" 
+                  onClick={() => setIsOpen(false)}
+                  className="w-full my-1 py-3 bg-accent/10 border border-accent/30 text-accent font-bold rounded-xl text-center hover:bg-accent hover:text-black transition-all flex items-center justify-center gap-2"
+                >
+                  <User size={12} /> Client Access / Login
+                </Link>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

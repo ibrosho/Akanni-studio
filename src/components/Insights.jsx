@@ -133,6 +133,25 @@ export default function Insights() {
   const [readingArticle, setReadingArticle] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const modalRef = useRef(null);
+
+  // Lock background Lenis smooth scroll & scroll modal to top when reading
+  useEffect(() => {
+    if (readingArticle || lightboxImage) {
+      window.__lenis?.stop();
+      document.body.style.overflow = 'hidden';
+      if (readingArticle && modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
+    } else {
+      window.__lenis?.start();
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.__lenis?.start();
+      document.body.style.overflow = '';
+    };
+  }, [readingArticle, lightboxImage]);
 
   // Bookmarks persistence
   const [bookmarks, setBookmarks] = useState(() => {
@@ -371,6 +390,7 @@ export default function Insights() {
         <AnimatePresence>
           {readingArticle && (
             <motion.div
+              ref={modalRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
