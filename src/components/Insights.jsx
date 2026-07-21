@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bookmark, Share2, ArrowUpRight, Clock, X, Maximize2, Layers, Download } from 'lucide-react';
 import { useAuth } from './AuthContext';
 import PageTransition from './PageTransition';
+import { SectionReveal } from './Reveal';
 import { getMediaUrl } from '../config/media';
 
 // Expanded Architectural Insights Database — 8 Essays with 18 Unique Photo Assets

@@ -27,6 +27,3 @@ dist-ssr
 .env
 .env*.local
 
-# Heavy media files (hosted on Cloudinary)
-*.mp4
-

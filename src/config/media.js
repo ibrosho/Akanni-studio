@@ -1,15 +1,14 @@
-// Centralized media utility for Cloudinary CDN delivery & local fallback
+// Centralized media utility for video delivery & local fallback
 
+const USE_CLOUDINARY = import.meta.env.VITE_USE_CLOUDINARY === "true";
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "";
-const CLOUDINARY_BASE_URL = import.meta.env.VITE_CLOUDINARY_BASE_URL || "";
 
 /**
- * Transforms local media paths (e.g. "/hero_loop.mp4") into optimized Cloudinary CDN URLs.
- * Automatically applies Cloudinary `f_auto,q_auto` for fast streaming, optimal WebM/MP4 format,
- * and adaptive compression.
+ * Returns optimized video asset path.
+ * Uses lightweight local video files in /public by default for 100% reliable playback without 404s.
  *
  * @param {string} path - Local path (e.g., "/hero_loop.mp4") or full remote URL
- * @returns {string} Optimized CDN URL or original local path
+ * @returns {string} Clean local asset path or CDN URL
  */
 export function getMediaUrl(path) {
   if (!path) return "";
@@ -19,19 +18,12 @@ export function getMediaUrl(path) {
     return path;
   }
 
-  // If a custom Cloudinary base URL is defined
-  if (CLOUDINARY_BASE_URL) {
-    const filename = path.startsWith("/") ? path.slice(1) : path;
-    const cleanBase = CLOUDINARY_BASE_URL.endsWith("/") ? CLOUDINARY_BASE_URL.slice(0, -1) : CLOUDINARY_BASE_URL;
-    return `${cleanBase}/${filename}`;
-  }
-
-  // If Cloudinary cloud name is provided
-  if (CLOUDINARY_CLOUD_NAME) {
+  // If Cloudinary is explicitly enabled and cloud name is set
+  if (USE_CLOUDINARY && CLOUDINARY_CLOUD_NAME) {
     const filename = path.startsWith("/") ? path.slice(1) : path;
     return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${filename}`;
   }
 
-  // Fallback to local path
+  // Default to lightweight local video path in /public
   return path;
 }
