@@ -5,6 +5,9 @@ import TiltCard from './TiltCard';
 import PageTransition from './PageTransition';
 import { SectionReveal } from './Reveal';
 import { getMediaUrl } from '../config/media';
+import OptimizedImage from './OptimizedImage';
+import OptimizedVideo from './OptimizedVideo';
+import { preloadAssetList } from '../utils/preloader';
 
 // Editorial Case Study Database — 8 Projects with 18 Unique Photo & Video Assets
 const RAW_PROJECT_DATABASE = [
@@ -172,7 +175,9 @@ const RAW_PROJECT_DATABASE = [
 
 const PROJECT_DATABASE = RAW_PROJECT_DATABASE.map((proj) => ({
   ...proj,
-  heroVideo: getMediaUrl(proj.heroVideo)
+  heroImage: getMediaUrl(proj.heroImage, "image"),
+  heroVideo: proj.heroVideo ? getMediaUrl(proj.heroVideo, "video") : null,
+  gallery: (proj.gallery || []).map((img) => getMediaUrl(img, "image"))
 }));
 
 const CATEGORIES = ["ALL", "Biophilic Urbanism", "Residential Architecture", "Commercial High-Rise", "Computational Design", "Cultural & Civic"];
@@ -186,7 +191,11 @@ export default function Projects() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const modalRef = useRef(null);
 
-  // Lock background Lenis smooth scroll & auto scroll modal to top
+  // Preload primary project cover assets on initial load
+  useEffect(() => {
+    const assetsToPreload = PROJECT_DATABASE.flatMap(p => [p.heroImage, p.heroVideo].filter(Boolean));
+    preloadAssetList(assetsToPreload);
+  }, []);
   useEffect(() => {
     if (activeProject || lightboxImage) {
       window.__lenis?.stop();
@@ -327,22 +336,20 @@ ${project.outcome}
                   <div onClick={() => setActiveProject(project)} className="group cursor-pointer">
                     <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
                       
-                      {/* Video or Image Background Loop */}
+                      {/* Optimized Media Container */}
                       <div className="absolute inset-0 w-full h-full overflow-hidden bg-zinc-950">
-                        <img 
-                          src={project.heroImage} 
-                          alt={project.title} 
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100" 
-                        />
-                        {project.heroVideo && (
-                          <video 
+                        {project.heroVideo ? (
+                          <OptimizedVideo
                             src={project.heroVideo}
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline 
-                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
-                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
+                            poster={project.heroImage}
+                            alt={project.title}
+                            className="w-full h-full"
+                          />
+                        ) : (
+                          <OptimizedImage
+                            src={project.heroImage}
+                            alt={project.title}
+                            className="w-full h-full"
                           />
                         )}
                       </div>
@@ -446,23 +453,21 @@ ${project.outcome}
                   </div>
 
                   <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center shadow-2xl">
-                    <img 
-                      src={activeProject.heroImage} 
-                      alt={activeProject.title} 
-                      className="absolute inset-0 w-full h-full object-cover cursor-pointer" 
-                      onClick={() => setLightboxImage(activeProject.heroImage)}
-                    />
-                    {activeProject.heroVideo && (
-                      <video 
+                    {activeProject.heroVideo ? (
+                      <OptimizedVideo
                         src={activeProject.heroVideo}
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline 
-                        onCanPlay={(e) => e.target.classList.remove('opacity-0')}
-                        className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-1000 opacity-0 ${
+                        poster={activeProject.heroImage}
+                        alt={activeProject.title}
+                        className={`w-full h-full ${
                           blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen' : ''
-                        }`} 
+                        }`}
+                        onClick={() => setLightboxImage(activeProject.heroImage)}
+                      />
+                    ) : (
+                      <OptimizedImage
+                        src={activeProject.heroImage}
+                        alt={activeProject.title}
+                        className="w-full h-full cursor-pointer"
                         onClick={() => setLightboxImage(activeProject.heroImage)}
                       />
                     )}
@@ -534,8 +539,13 @@ ${project.outcome}
                           onClick={() => setLightboxImage(imgSrc)}
                           className="group aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-black cursor-pointer relative"
                         >
-                          <img src={imgSrc} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <OptimizedImage 
+                            src={imgSrc} 
+                            alt={`Gallery ${idx + 1}`} 
+                            className="w-full h-full" 
+                            imageClassName="group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100" 
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                             <Maximize2 size={16} className="text-accent" />
                           </div>
                         </div>
@@ -602,10 +612,12 @@ ${project.outcome}
               </button>
 
               <div className="relative max-w-7xl max-h-[90vh] flex items-center justify-center overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                <img
+                <OptimizedImage
                   src={lightboxImage}
                   alt="Full Picture View"
-                  className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                  priority
+                  className="max-w-full max-h-[85vh] w-auto h-auto rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                  imageClassName="object-contain"
                 />
               </div>
             </motion.div>

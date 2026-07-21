@@ -352,7 +352,12 @@ function AppContent() {
     "/yug.mp4",
     "/yum.mp4",
     "/aka2.mp4"
-  ].map(getMediaUrl);
+  ].map((path) => getMediaUrl(path, "video"));
+
+  // Preload background video loops and primary hero images
+  useEffect(() => {
+    preloadAssetList([...backgroundVideos, "/canopy.avif", "/monolith.avif", "/skyscraper.avif"]);
+  }, []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const location = useLocation();

@@ -4,6 +4,7 @@ import { ArrowUpRight, Compass, Cpu, Terminal, Play } from 'lucide-react';
 import PageTransition from './PageTransition';
 import MagneticButton from './MagneticButton';
 import { getMediaUrl } from '../config/media';
+import OptimizedVideo from './OptimizedVideo';
 
 export default function Studio() {
   const navigate = useNavigate();
@@ -54,16 +55,13 @@ export default function Studio() {
       
       {/* Background Video Loop with Ambient Overlay */}
       <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 opacity-20">
-        <video 
-          src={getMediaUrl("/studio_loop.mp4")}
-          poster="/atelier.avif"
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="w-full h-full object-cover scale-105"
+        <OptimizedVideo 
+          src={getMediaUrl("/studio_loop.mp4", "video")}
+          poster={getMediaUrl("/atelier.avif", "image")}
+          alt="Studio background ambient loop"
+          className="w-full h-full scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
       </div>
 
       <section id="studio" className="pb-24 relative z-20 w-full min-h-screen">

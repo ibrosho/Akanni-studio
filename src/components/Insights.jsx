@@ -5,6 +5,9 @@ import { useAuth } from './AuthContext';
 import PageTransition from './PageTransition';
 import { SectionReveal } from './Reveal';
 import { getMediaUrl } from '../config/media';
+import OptimizedImage from './OptimizedImage';
+import OptimizedVideo from './OptimizedVideo';
+import { preloadAssetList } from '../utils/preloader';
 
 // Expanded Architectural Insights Database — 8 Essays with 18 Unique Photo Assets
 const RAW_INSIGHTS_ARTICLES = [
@@ -131,7 +134,9 @@ const CATEGORIES = ["ALL", "Spatial Design", "Branding", "Architecture", "Produc
 
 const INSIGHTS_ARTICLES = RAW_INSIGHTS_ARTICLES.map((article) => ({
   ...article,
-  video: article.video ? getMediaUrl(article.video) : null
+  image: getMediaUrl(article.image, "image"),
+  video: article.video ? getMediaUrl(article.video, "video") : null,
+  gallery: (article.gallery || []).map((img) => getMediaUrl(img, "image"))
 }));
 
 export default function Insights() {
@@ -141,6 +146,12 @@ export default function Insights() {
   const [sortBy, setSortBy] = useState("latest");
   const [readingArticle, setReadingArticle] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
+
+  // Preload article cover assets on initial load
+  useEffect(() => {
+    const assetsToPreload = INSIGHTS_ARTICLES.flatMap(a => [a.image, a.video].filter(Boolean));
+    preloadAssetList(assetsToPreload);
+  }, []);
   const [scrollProgress, setScrollProgress] = useState(0);
   const modalRef = useRef(null);
 
@@ -294,23 +305,21 @@ export default function Insights() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden bg-zinc-900">
-                        <img 
-                          src={article.image} 
-                          alt={article.title} 
-                          className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out" 
+                      {article.video ? (
+                        <OptimizedVideo
+                          src={article.video}
+                          poster={article.image}
+                          alt={article.title}
+                          className="w-full h-full"
                         />
-                        {article.video && (
-                          <video 
-                            src={article.video}
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline 
-                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
-                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
-                          />
-                        )}
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent" />
+                      ) : (
+                        <OptimizedImage
+                          src={article.image}
+                          alt={article.title}
+                          className="w-full h-full"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent pointer-events-none" />
                     </div>
                     
                     <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between items-start">
@@ -348,23 +357,21 @@ export default function Insights() {
                   >
                     <div className="space-y-5">
                       <div className="aspect-[16/10] rounded-2xl overflow-hidden relative bg-zinc-900">
-                        <img 
-                          src={article.image} 
-                          alt={article.title} 
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100" 
-                        />
-                        {article.video && (
-                          <video 
+                        {article.video ? (
+                          <OptimizedVideo
                             src={article.video}
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline 
-                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
-                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
+                            poster={article.image}
+                            alt={article.title}
+                            className="w-full h-full"
+                          />
+                        ) : (
+                          <OptimizedImage
+                            src={article.image}
+                            alt={article.title}
+                            className="w-full h-full"
                           />
                         )}
-                        <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase">
+                        <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase z-10">
                           {article.category}
                         </div>
                       </div>
@@ -466,21 +473,19 @@ export default function Insights() {
 
                 {/* HERO SHOWCASE VIDEO / IMAGE DISPLAY */}
                 <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border border-white/10 bg-black/90 flex items-center justify-center my-6 shadow-2xl">
-                  <img 
-                    src={readingArticle.image} 
-                    alt={readingArticle.title} 
-                    className="absolute inset-0 w-full h-full object-cover cursor-pointer" 
-                    onClick={() => setLightboxImage(readingArticle.image)}
-                  />
-                  {readingArticle.video && (
-                    <video 
+                  {readingArticle.video ? (
+                    <OptimizedVideo
                       src={readingArticle.video}
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      onCanPlay={(e) => e.target.classList.remove('opacity-0')}
-                      className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-1000 opacity-0 group-hover:scale-[1.01]"
+                      poster={readingArticle.image}
+                      alt={readingArticle.title}
+                      className="w-full h-full cursor-pointer"
+                      onClick={() => setLightboxImage(readingArticle.image)}
+                    />
+                  ) : (
+                    <OptimizedImage
+                      src={readingArticle.image}
+                      alt={readingArticle.title}
+                      className="w-full h-full cursor-pointer"
                       onClick={() => setLightboxImage(readingArticle.image)}
                     />
                   )}

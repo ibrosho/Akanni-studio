@@ -1,29 +1,37 @@
-// Centralized media utility for video delivery & local fallback
+// Centralized media utility for video and image asset resolution
 
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "nassz3ed";
 const USE_CLOUDINARY = import.meta.env.VITE_USE_CLOUDINARY === "true";
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "";
 
 /**
- * Returns optimized video asset path.
- * Uses lightweight local video files in /public by default for 100% reliable playback without 404s.
+ * Returns optimized media asset URL.
+ * Automatically handles Cloudinary formatting and local /public fallbacks.
  *
- * @param {string} path - Local path (e.g., "/hero_loop.mp4") or full remote URL
- * @returns {string} Clean local asset path or CDN URL
+ * @param {string} path - Local path (e.g., "/hero_loop.mp4" or "/canopy.avif") or remote URL
+ * @param {'video' | 'image'} [type='video'] - Media type for Cloudinary bucket routing
+ * @returns {string} Fully formatted asset URL
  */
-export function getMediaUrl(path) {
+export function getMediaUrl(path, type = "video") {
   if (!path) return "";
-  
-  // If already a full http/https URL, return directly
+
+  // Return full HTTP/HTTPS URLs directly
   if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;
   }
 
-  // If Cloudinary is explicitly enabled and cloud name is set
+  const cleanFilename = path.startsWith("/") ? path.slice(1) : path;
+
+  // Use Cloudinary if explicitly enabled or if Cloud Name is configured
   if (USE_CLOUDINARY && CLOUDINARY_CLOUD_NAME) {
-    const filename = path.startsWith("/") ? path.slice(1) : path;
-    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/f_auto,q_auto/${filename}`;
+    const bucket = type === "image" ? "image" : "video";
+    return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${bucket}/upload/f_auto,q_auto/${cleanFilename}`;
   }
 
-  // Default to lightweight local video path in /public
-  return path;
+  // Default to local public asset path
+  return path.startsWith("/") ? path : `/${path}`;
 }
+
+/**
+ * Fallback architecture placeholder image for broken links
+ */
+export const FALLBACK_IMAGE = "/canopy.avif";
