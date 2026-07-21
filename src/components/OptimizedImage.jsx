@@ -16,46 +16,41 @@ export const OptimizedImage = React.memo(function OptimizedImage({
   priority = false,
   ...props
 }) {
-  const isPreloaded = isAssetPreloaded(src);
+  const isPreloaded = priority || isAssetPreloaded(src);
   const [isLoaded, setIsLoaded] = useState(isPreloaded);
-  const [hasError, setHasError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(src);
 
   useEffect(() => {
     if (!src) return;
     setCurrentSrc(src);
-    setHasError(false);
 
-    if (isAssetPreloaded(src)) {
+    if (priority || isAssetPreloaded(src)) {
       setIsLoaded(true);
     } else {
-      setIsLoaded(false);
       preloadImage(src).then(() => {
         setIsLoaded(true);
       });
     }
-  }, [src]);
+  }, [src, priority]);
 
   const handleError = () => {
     console.warn(`[OptimizedImage] Failed to load image: ${currentSrc}. Falling back to default.`);
-    setHasError(true);
     setCurrentSrc(FALLBACK_IMAGE);
     setIsLoaded(true);
   };
 
   return (
     <div className={`relative overflow-hidden ${className}`} onClick={onClick} {...props}>
-      {/* Animated Skeleton Loader */}
+      {/* Animated Shimmer Skeleton Loader */}
       <AnimatePresence>
         {!isLoaded && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="absolute inset-0 bg-zinc-900 overflow-hidden z-10 flex items-center justify-center"
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 bg-zinc-900 overflow-hidden z-10"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent animate-shimmer" />
-            <div className="w-6 h-6 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent animate-shimmer" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -68,9 +63,9 @@ export const OptimizedImage = React.memo(function OptimizedImage({
         decoding="async"
         onLoad={() => setIsLoaded(true)}
         onError={handleError}
-        initial={isPreloaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : { opacity: 0, scale: 1.04, filter: 'blur(8px)' }}
-        animate={isLoaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : { opacity: 0, scale: 1.04, filter: 'blur(8px)' }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        initial={isPreloaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : { opacity: 0, scale: 1.03, filter: 'blur(6px)' }}
+        animate={isLoaded ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : { opacity: 0, scale: 1.03, filter: 'blur(6px)' }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`w-full h-full object-cover ${imageClassName}`}
       />
     </div>
