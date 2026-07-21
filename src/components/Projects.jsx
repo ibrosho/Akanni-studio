@@ -332,17 +332,17 @@ ${project.outcome}
                         <img 
                           src={project.heroImage} 
                           alt={project.title} 
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-70 group-hover:opacity-90" 
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100" 
                         />
                         {project.heroVideo && (
                           <video 
                             src={project.heroVideo}
-                            poster={project.heroImage}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
+                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
+                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
                           />
                         )}
                       </div>
@@ -449,19 +449,19 @@ ${project.outcome}
                     <img 
                       src={activeProject.heroImage} 
                       alt={activeProject.title} 
-                      className="absolute inset-0 w-full h-full object-cover" 
+                      className="absolute inset-0 w-full h-full object-cover cursor-pointer" 
                       onClick={() => setLightboxImage(activeProject.heroImage)}
                     />
                     {activeProject.heroVideo && (
                       <video 
                         src={activeProject.heroVideo}
-                        poster={activeProject.heroImage}
                         autoPlay 
                         loop 
                         muted 
                         playsInline 
-                        className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-500 ${
-                          blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
+                        onCanPlay={(e) => e.target.classList.remove('opacity-0')}
+                        className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-1000 opacity-0 ${
+                          blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen' : ''
                         }`} 
                         onClick={() => setLightboxImage(activeProject.heroImage)}
                       />

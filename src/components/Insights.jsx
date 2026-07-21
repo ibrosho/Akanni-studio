@@ -297,17 +297,17 @@ export default function Insights() {
                         <img 
                           src={article.image} 
                           alt={article.title} 
-                          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out" 
+                          className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out" 
                         />
                         {article.video && (
                           <video 
                             src={article.video}
-                            poster={article.image}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
-                            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
+                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
                           />
                         )}
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent" />
@@ -351,17 +351,17 @@ export default function Insights() {
                         <img 
                           src={article.image} 
                           alt={article.title} 
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90" 
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100" 
                         />
                         {article.video && (
                           <video 
                             src={article.video}
-                            poster={article.image}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
+                            onCanPlay={(e) => e.target.classList.remove('opacity-0')}
+                            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out opacity-0 group-hover:scale-105 group-hover:opacity-90"
                           />
                         )}
                         <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase">
@@ -475,12 +475,12 @@ export default function Insights() {
                   {readingArticle.video && (
                     <video 
                       src={readingArticle.video}
-                      poster={readingArticle.image}
                       autoPlay 
                       loop 
                       muted 
                       playsInline 
-                      className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]"
+                      onCanPlay={(e) => e.target.classList.remove('opacity-0')}
+                      className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-1000 opacity-0 group-hover:scale-[1.01]"
                       onClick={() => setLightboxImage(readingArticle.image)}
                     />
                   )}

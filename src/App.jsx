@@ -183,7 +183,7 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
         <img 
           src={activeProject.heroImage || "/canopy.avif"} 
           alt="Hero Background Fallback" 
-          className="absolute top-0 left-0 w-full h-full object-cover opacity-35 pointer-events-none"
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-65 pointer-events-none"
         />
 
         <AnimatePresence initial={false} mode="popLayout">
