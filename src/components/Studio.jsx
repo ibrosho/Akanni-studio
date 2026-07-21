@@ -59,7 +59,6 @@ export default function Studio() {
           loop 
           muted 
           playsInline 
-          poster="/atelier.avif"
           className="w-full h-full object-cover scale-105"
         >
           <source src={getMediaUrl("/studio_loop.mp4")} type="video/mp4" />

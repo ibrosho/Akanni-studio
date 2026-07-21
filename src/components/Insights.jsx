@@ -299,7 +299,6 @@ export default function Insights() {
                           loop 
                           muted 
                           playsInline 
-                          poster={article.image}
                           className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
                         >
                           <source src={article.video} type="video/mp4" />
@@ -355,7 +354,6 @@ export default function Insights() {
                             loop 
                             muted 
                             playsInline 
-                            poster={article.image}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
                           >
                             <source src={article.video} type="video/mp4" />
@@ -475,7 +473,6 @@ export default function Insights() {
                       loop 
                       muted 
                       playsInline 
-                      poster={readingArticle.image}
                       className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]"
                       onClick={() => setLightboxImage(readingArticle.image)}
                     >

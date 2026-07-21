@@ -334,7 +334,6 @@ ${project.outcome}
                             loop 
                             muted 
                             playsInline 
-                            poster={project.heroImage}
                             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
                           >
                             <source src={project.heroVideo} type="video/mp4" />
@@ -453,7 +452,6 @@ ${project.outcome}
                         loop 
                         muted 
                         playsInline 
-                        poster={activeProject.heroImage}
                         className={`w-full h-full object-cover cursor-pointer transition-all duration-500 ${
                           blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
                         }`} 

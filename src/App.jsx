@@ -202,7 +202,6 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
             loop
             muted
             playsInline
-            poster={activeProject.heroImage || "/canopy.avif"}
             className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
           >
             <source src={backgroundVideos[currentIndex]} type="video/mp4" />
