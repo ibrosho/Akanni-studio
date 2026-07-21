@@ -294,22 +294,22 @@ export default function Insights() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden bg-zinc-900">
-                      {article.video ? (
-                        <video 
-                          src={article.video}
-                          autoPlay 
-                          loop 
-                          muted 
-                          playsInline 
-                          className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
-                        />
-                      ) : (
                         <img 
                           src={article.image} 
                           alt={article.title} 
-                          className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                          className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700 ease-out" 
                         />
-                      )}
+                        {article.video && (
+                          <video 
+                            src={article.video}
+                            poster={article.image}
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out"
+                          />
+                        )}
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent" />
                     </div>
                     
@@ -348,20 +348,20 @@ export default function Insights() {
                   >
                     <div className="space-y-5">
                       <div className="aspect-[16/10] rounded-2xl overflow-hidden relative bg-zinc-900">
-                        {article.video ? (
+                        <img 
+                          src={article.image} 
+                          alt={article.title} 
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90" 
+                        />
+                        {article.video && (
                           <video 
                             src={article.video}
+                            poster={article.image}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
-                          />
-                        ) : (
-                          <img 
-                            src={article.image} 
-                            alt={article.title} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-90"
                           />
                         )}
                         <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase">
@@ -466,21 +466,21 @@ export default function Insights() {
 
                 {/* HERO SHOWCASE VIDEO / IMAGE DISPLAY */}
                 <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border border-white/10 bg-black/90 flex items-center justify-center my-6 shadow-2xl">
-                  {readingArticle.video ? (
+                  <img 
+                    src={readingArticle.image} 
+                    alt={readingArticle.title} 
+                    className="absolute inset-0 w-full h-full object-cover cursor-pointer" 
+                    onClick={() => setLightboxImage(readingArticle.image)}
+                  />
+                  {readingArticle.video && (
                     <video 
                       src={readingArticle.video}
+                      poster={readingArticle.image}
                       autoPlay 
                       loop 
                       muted 
                       playsInline 
-                      className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]"
-                      onClick={() => setLightboxImage(readingArticle.image)}
-                    />
-                  ) : (
-                    <img 
-                      src={readingArticle.image} 
-                      alt={readingArticle.title} 
-                      className="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]" 
+                      className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-[1.01]"
                       onClick={() => setLightboxImage(readingArticle.image)}
                     />
                   )}

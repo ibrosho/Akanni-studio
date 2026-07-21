@@ -328,21 +328,21 @@ ${project.outcome}
                     <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
                       
                       {/* Video or Image Background Loop */}
-                      <div className="absolute inset-0 w-full h-full overflow-hidden">
-                        {project.heroVideo ? (
+                      <div className="absolute inset-0 w-full h-full overflow-hidden bg-zinc-950">
+                        <img 
+                          src={project.heroImage} 
+                          alt={project.title} 
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-70 group-hover:opacity-90" 
+                        />
+                        {project.heroVideo && (
                           <video 
                             src={project.heroVideo}
+                            poster={project.heroImage}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
-                          />
-                        ) : (
-                          <img 
-                            src={project.heroImage} 
-                            alt={project.title} 
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85" 
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
                           />
                         )}
                       </div>
@@ -446,26 +446,24 @@ ${project.outcome}
                   </div>
 
                   <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center shadow-2xl">
-                    {activeProject.heroVideo ? (
+                    <img 
+                      src={activeProject.heroImage} 
+                      alt={activeProject.title} 
+                      className="absolute inset-0 w-full h-full object-cover" 
+                      onClick={() => setLightboxImage(activeProject.heroImage)}
+                    />
+                    {activeProject.heroVideo && (
                       <video 
                         src={activeProject.heroVideo}
+                        poster={activeProject.heroImage}
                         autoPlay 
                         loop 
                         muted 
                         playsInline 
-                        className={`w-full h-full object-cover cursor-pointer transition-all duration-500 ${
+                        className={`absolute inset-0 w-full h-full object-cover cursor-pointer transition-all duration-500 ${
                           blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
                         }`} 
                         onClick={() => setLightboxImage(activeProject.heroImage)}
-                      />
-                    ) : (
-                      <img 
-                        src={activeProject.heroImage} 
-                        alt="Main Showcase Render" 
-                        onClick={() => setLightboxImage(activeProject.heroImage)}
-                        className={`w-full h-full object-cover cursor-pointer transition-all duration-500 ${
-                          blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
-                        }`} 
                       />
                     )}
 

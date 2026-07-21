@@ -56,6 +56,7 @@ export default function Studio() {
       <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 opacity-20">
         <video 
           src={getMediaUrl("/studio_loop.mp4")}
+          poster="/atelier.avif"
           autoPlay 
           loop 
           muted 
