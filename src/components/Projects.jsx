@@ -330,14 +330,13 @@ ${project.outcome}
                       <div className="absolute inset-0 w-full h-full overflow-hidden">
                         {project.heroVideo ? (
                           <video 
+                            src={project.heroVideo}
                             autoPlay 
                             loop 
                             muted 
                             playsInline 
                             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-60 group-hover:opacity-85"
-                          >
-                            <source src={project.heroVideo} type="video/mp4" />
-                          </video>
+                          />
                         ) : (
                           <img 
                             src={project.heroImage} 
@@ -448,6 +447,7 @@ ${project.outcome}
                   <div className="relative group w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-luxury-border bg-black/90 flex items-center justify-center shadow-2xl">
                     {activeProject.heroVideo ? (
                       <video 
+                        src={activeProject.heroVideo}
                         autoPlay 
                         loop 
                         muted 
@@ -456,9 +456,7 @@ ${project.outcome}
                           blueprintMode ? 'grayscale contrast-[1.25] invert brightness-[0.75] hue-rotate-[180deg] mix-blend-screen opacity-90' : ''
                         }`} 
                         onClick={() => setLightboxImage(activeProject.heroImage)}
-                      >
-                        <source src={activeProject.heroVideo} type="video/mp4" />
-                      </video>
+                      />
                     ) : (
                       <img 
                         src={activeProject.heroImage} 

@@ -138,7 +138,9 @@ function ProtectedRoute({ children }) {
 function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backgroundVideos }) {
   const activeProject = STAGE_PROJECTS[currentIndex] || STAGE_PROJECTS[0];
   const { user } = useAuth();
-  const welcomeLetter = user?.email ? user.email.charAt(0).toUpperCase() : (user?.name ? user.name.charAt(0).toUpperCase() : '');
+  const userName = user?.name 
+    ? user.name 
+    : (user?.email ? user.email.split('@')[0] : '');
 
   // Subtle Parallax effect using motion values to bypass React state re-rendering
   const mouseX = useMotionValue(0);
@@ -186,7 +188,8 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
 
         <AnimatePresence initial={false} mode="popLayout">
           <motion.video
-            key={currentIndex}
+            key={backgroundVideos[currentIndex]}
+            src={backgroundVideos[currentIndex]}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ 
               opacity: 0.55, 
@@ -203,9 +206,7 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
             muted
             playsInline
             className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
-          >
-            <source src={backgroundVideos[currentIndex]} type="video/mp4" />
-          </motion.video>
+          />
         </AnimatePresence>
       </div>
 
@@ -230,13 +231,13 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
           style={{ x: leftX, y: leftY }}
           className="lg:col-span-8 flex flex-col justify-center space-y-6 sm:space-y-8 text-left"
         >
-          {welcomeLetter && (
+          {userName && (
             <motion.p 
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 0.5, x: 0 }}
               className="text-[10px] font-mono tracking-[0.35em] text-zinc-400 uppercase font-light"
             >
-              Welcome back, <span className="text-accent font-bold drop-shadow-[0_0_8px_rgba(0,245,212,0.4)]">{welcomeLetter}</span>
+              Welcome back, <span className="text-accent font-bold drop-shadow-[0_0_8px_rgba(0,245,212,0.4)]">{userName}</span>
             </motion.p>
           )}
 

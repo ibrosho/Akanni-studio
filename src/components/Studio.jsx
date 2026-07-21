@@ -55,14 +55,13 @@ export default function Studio() {
       {/* Background Video Loop with Ambient Overlay */}
       <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 opacity-20">
         <video 
+          src={getMediaUrl("/studio_loop.mp4")}
           autoPlay 
           loop 
           muted 
           playsInline 
           className="w-full h-full object-cover scale-105"
-        >
-          <source src={getMediaUrl("/studio_loop.mp4")} type="video/mp4" />
-        </video>
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
       </div>
 
