@@ -20,6 +20,7 @@ import ScrollProgress from './components/ScrollProgress';
 import BlueprintGrid from './components/BlueprintGrid';
 import ErrorBoundary from './components/ErrorBoundary';
 import { getMediaUrl } from './config/media';
+import { preloadAssetList } from './utils/preloader';
 
 // Lazy Loaded Page Components
 const Studio = lazy(() => import('./components/Studio'));
