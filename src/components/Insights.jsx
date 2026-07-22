@@ -304,7 +304,7 @@ export default function Insights() {
                   className="group cursor-pointer block border border-white/[0.06] bg-zinc-950/40 rounded-3xl overflow-hidden hover:border-accent/40 transition-all duration-500 shadow-xl"
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
-                    <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden bg-zinc-900">
+                    <div className="lg:col-span-7 aspect-[16/10] sm:aspect-[16/9] min-h-[320px] max-h-[460px] relative overflow-hidden bg-zinc-900">
                       <OptimizedImage
                         src={article.image}
                         alt={article.title}
