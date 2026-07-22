@@ -38,7 +38,8 @@ const STAGE_PROJECTS = [
     tag: "Biophilic Urbanism",
     description: "An open-air civic pavilion utilizing self-shading parametric timber arches and integrated water filtration micro-climates to revive urban public space.",
     focus: "Structural Computational Design & Timber Mechanics",
-    location: "Lagos, NG"
+    location: "Lagos, NG",
+    heroImage: getMediaUrl("/canopy.avif", "image")
   },
   {
     title: "Mizora",
@@ -46,7 +47,8 @@ const STAGE_PROJECTS = [
     tag: "Residential Architecture",
     description: "A minimalist coastal residence carved from low-carbon volcanic concrete, featuring massive structural cantilevered spans framing the Atlantic skyline.",
     focus: "High-Fidelity Spatial Systems & Concrete Engineering",
-    location: "Victoria Island, Lagos"
+    location: "Victoria Island, Lagos",
+    heroImage: getMediaUrl("/mizora.avif", "image")
   },
   {
     title: "The Zenith",
@@ -54,7 +56,8 @@ const STAGE_PROJECTS = [
     tag: "Commercial High-Rise",
     description: "A 45-story commercial skyscraper wrapped in a dynamic, kinetic solar-tracking envelope engineered to optimize internal thermal dynamics.",
     focus: "Parametric Facades & Environmental Fluid Dynamics",
-    location: "Eko Atlantic City, NG"
+    location: "Eko Atlantic City, NG",
+    heroImage: getMediaUrl("/skyscraper.avif", "image")
   },
   {
     title: "Nexus",
@@ -62,7 +65,8 @@ const STAGE_PROJECTS = [
     tag: "Computational Design",
     description: "A next-generation research hub exploring parametric timber shell structures and multi-agent spatial generation algorithms.",
     focus: "Digital Fabrication Robotics & Spatial Packing",
-    location: "Lagos Spatial Initiative, NG"
+    location: "Lagos Spatial Initiative, NG",
+    heroImage: getMediaUrl("/nexus.avif", "image")
   },
   {
     title: "Kora",
@@ -70,7 +74,8 @@ const STAGE_PROJECTS = [
     tag: "Residential Architecture",
     description: "A secluded oceanfront residence integrated directly into volcanic cliff rock formations with 270-degree Atlantic views.",
     focus: "Cliff Anchor Subterranean Engineering",
-    location: "Atlantic Coast, NG"
+    location: "Atlantic Coast, NG",
+    heroImage: getMediaUrl("/kora.avif", "image")
   },
   {
     title: "Eko Tech",
@@ -78,7 +83,8 @@ const STAGE_PROJECTS = [
     tag: "Commercial High-Rise",
     description: "A dynamic 30-story commercial tower wrapped in photovoltaic kinetic glass panels generating clean solar energy.",
     focus: "Photovoltaic Kinetic Envelope Systems",
-    location: "Eko Tech District, NG"
+    location: "Eko Tech District, NG",
+    heroImage: getMediaUrl("/photovoltaic.avif", "image")
   },
   {
     title: "Atelier Horizon",
@@ -86,7 +92,8 @@ const STAGE_PROJECTS = [
     tag: "Cultural & Civic",
     description: "A sweeping civic museum celebrating West African architectural heritage and computational art.",
     focus: "Hyperbolic Paraboloid Shell Structures",
-    location: "Federal Capital Territory, NG"
+    location: "Federal Capital Territory, NG",
+    heroImage: getMediaUrl("/atelier.avif", "image")
   },
   {
     title: "Solaria",
@@ -94,7 +101,8 @@ const STAGE_PROJECTS = [
     tag: "Biophilic Urbanism",
     description: "A self-sustaining public educational center powered completely by solar timber pergolas and rain harvesting.",
     focus: "Solar Thermal Desiccant Dehumidification",
-    location: "West Africa Solar Trust, NG"
+    location: "West Africa Solar Trust, NG",
+    heroImage: getMediaUrl("/solaria.avif", "image")
   }
 ];
 
@@ -178,22 +186,16 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
       onMouseLeave={handleMouseLeave}
       className="relative w-full min-h-screen lg:h-screen flex items-center overflow-y-auto lg:overflow-hidden bg-luxury-black py-32 lg:py-0"
     >
-      {/* Background Video + Image Fallback Layer */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-        {/* Fallback Hero Photo */}
-        <img 
-          src={activeProject.heroImage || "/canopy.avif"} 
-          alt="Hero Background Fallback" 
-          className="absolute top-0 left-0 w-full h-full object-cover opacity-65 pointer-events-none"
-        />
-
+      {/* Background Video Layer */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-zinc-950">
         <AnimatePresence initial={false} mode="popLayout">
           <motion.video
             key={backgroundVideos[currentIndex]}
             src={backgroundVideos[currentIndex]}
+            poster={activeProject.heroImage}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ 
-              opacity: 0.55, 
+              opacity: 0.8, 
               scale: 1
             }}
             style={{
@@ -206,7 +208,6 @@ function HeroHome({ currentIndex, setCurrentIndex, handlePrev, handleNext, backg
             loop
             muted
             playsInline
-            poster={activeProject.heroImage || "/canopy.avif"}
             className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
           />
         </AnimatePresence>
