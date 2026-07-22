@@ -305,18 +305,17 @@ export default function Insights() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto relative overflow-hidden bg-zinc-900">
-                      {article.video ? (
+                      <OptimizedImage
+                        src={article.image}
+                        alt={article.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                      {article.video && (
                         <OptimizedVideo
                           src={article.video}
                           poster={article.image}
                           alt={article.title}
-                          className="w-full h-full"
-                        />
-                      ) : (
-                        <OptimizedImage
-                          src={article.image}
-                          alt={article.title}
-                          className="w-full h-full"
+                          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 group-hover:opacity-100"
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 to-transparent pointer-events-none" />
@@ -357,18 +356,17 @@ export default function Insights() {
                   >
                     <div className="space-y-5">
                       <div className="aspect-[16/10] rounded-2xl overflow-hidden relative bg-zinc-900">
-                        {article.video ? (
+                        <OptimizedImage
+                          src={article.image}
+                          alt={article.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                        {article.video && (
                           <OptimizedVideo
                             src={article.video}
                             poster={article.image}
                             alt={article.title}
-                            className="w-full h-full"
-                          />
-                        ) : (
-                          <OptimizedImage
-                            src={article.image}
-                            alt={article.title}
-                            className="w-full h-full"
+                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 group-hover:opacity-100"
                           />
                         )}
                         <div className="absolute top-3 right-3 text-[9px] font-mono bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-accent border border-white/10 uppercase z-10">

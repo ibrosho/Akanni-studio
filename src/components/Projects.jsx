@@ -336,20 +336,19 @@ ${project.outcome}
                   <div onClick={() => setActiveProject(project)} className="group cursor-pointer">
                     <TiltCard className={`w-full ${aspectClass} rounded-[2rem] overflow-hidden border border-white/[0.06] bg-zinc-950 relative`}>
                       
-                      {/* Optimized Media Container */}
+                      {/* Optimized Media Container — Photo First, Video on Hover */}
                       <div className="absolute inset-0 w-full h-full overflow-hidden bg-zinc-950">
-                        {project.heroVideo ? (
+                        <OptimizedImage
+                          src={project.heroImage}
+                          alt={project.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                        {project.heroVideo && (
                           <OptimizedVideo
                             src={project.heroVideo}
                             poster={project.heroImage}
                             alt={project.title}
-                            className="w-full h-full"
-                          />
-                        ) : (
-                          <OptimizedImage
-                            src={project.heroImage}
-                            alt={project.title}
-                            className="w-full h-full"
+                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 group-hover:opacity-100"
                           />
                         )}
                       </div>
