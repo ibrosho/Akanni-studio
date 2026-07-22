@@ -3,7 +3,8 @@ import OptimizedImage from './OptimizedImage';
 
 /**
  * Reusable Optimized Video component with instant image backdrop,
- * smooth cross-fade video playback, zero black boxes, and zero modal glitches.
+ * crystal-clear video cross-fade (hiding backdrop when video is ready),
+ * zero blur interference, and zero modal glitches.
  */
 export const OptimizedVideo = React.memo(function OptimizedVideo({
   src,
@@ -36,7 +37,7 @@ export const OptimizedVideo = React.memo(function OptimizedVideo({
     setHasError(false);
   };
 
-  const handleVideoError = (e) => {
+  const handleVideoError = () => {
     console.warn(`[OptimizedVideo] Video stream unavailable for ${src}, maintaining photo backdrop.`);
     setHasError(true);
     setIsVideoReady(false);
@@ -48,17 +49,19 @@ export const OptimizedVideo = React.memo(function OptimizedVideo({
       onClick={onClick}
       {...props}
     >
-      {/* 1. Instant High-Resolution Image Backdrop — 100% Visible Immediately */}
+      {/* 1. Instant High-Resolution Image Backdrop — Fades out cleanly when video is ready */}
       {poster && (
         <OptimizedImage
           src={poster}
           alt={alt}
           priority
-          className="absolute inset-0 w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            isVideoReady ? 'opacity-0' : 'opacity-100'
+          }`}
         />
       )}
 
-      {/* 2. HTML5 Video Layer — Smooth 1s Fade In When Ready */}
+      {/* 2. HTML5 Video Layer — Crystal-clear foreground when ready */}
       {src && !hasError && (
         <video
           ref={videoRef}
@@ -72,8 +75,8 @@ export const OptimizedVideo = React.memo(function OptimizedVideo({
           onCanPlay={handleVideoReady}
           onLoadedData={handleVideoReady}
           onError={handleVideoError}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-out ${
-            isVideoReady ? 'opacity-100' : 'opacity-0'
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
+            isVideoReady ? 'opacity-100 z-10' : 'opacity-0 z-0'
           } ${videoClassName}`}
         />
       )}
